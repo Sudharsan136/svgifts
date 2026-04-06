@@ -239,7 +239,7 @@ export default function Home() {
               className="inline-flex items-center gap-3 bg-white text-gray-900 font-bold text-lg md:text-xl px-10 py-5 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300"
             >
               <FaWhatsapp size={26} className="text-[#25D366]" />
-              Connect with Concierge
+              Connect with WhatsApp
             </a>
           </motion.div>
         </div>
