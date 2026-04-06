@@ -115,8 +115,9 @@ export default function Home() {
                 
                 {/* Floating Elements inside frame */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                   <div className="w-64 h-64 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl flex items-center justify-center shadow-2xl p-8 rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer">
-                      <img src={logo} alt="SV Gifts Logo" className="w-full h-full object-contain filter drop-shadow-2xl" />
+                   <div className="w-64 h-64 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl flex flex-col items-center justify-center shadow-2xl p-6 rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer">
+                      <span className="font-display font-bold text-3xl text-white mb-4 tracking-wider drop-shadow-lg">SV Gifts</span>
+                      <img src={logo} alt="SV Gifts Logo" className="w-full h-auto max-h-32 object-contain filter drop-shadow-2xl" />
                    </div>
                 </div>
               </div>

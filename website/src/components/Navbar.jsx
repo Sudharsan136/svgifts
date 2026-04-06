@@ -31,7 +31,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <img src={logo} alt="SV Gifts Logo" className="w-12 h-12 object-contain" />
-            <span className="font-display font-bold text-xl text-primary-700">SV Gifts</span>
+            <span className="font-display font-bold text-3xl text-primary-700">SV Gifts</span>
           </Link>
 
           {/* Desktop Nav */}
