@@ -1,0 +1,19 @@
+{
+  "name": "svgifts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:website\" \"npm run dev:admin\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:website": "cd website && npm run dev",
+    "dev:admin": "cd admin && npm run dev",
+    "seed": "cd server && npm run seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

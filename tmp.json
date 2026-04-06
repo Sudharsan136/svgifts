@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "69ccbab890ac09271cb1a4fb",
+    "name": "shirt",
+    "description": "asd",
+    "price": 200,
+    "discountPrice": 500,
+    "category": "Festival Gifts",
+    "images": [
+      "https://www.beyours.in/products/the-classic-light-blue-shirt?srsltid=AfmBOoqeo6TWOC6qtSeA2neYe3OoRx2LW4h2L23UuDPSUHKsdeo38vro"
+    ],
+    "stock": 100,
+    "isFeatured": true,
+    "tags": [
+      "sdf"
+    ],
+    "ratings": 0,
+    "numReviews": 0,
+    "createdAt": "2026-04-01T06:27:04.493Z",
+    "updatedAt": "2026-04-01T06:28:19.764Z",
+    "__v": 1
+  }
+]
