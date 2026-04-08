@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    images: [{ type: String }],         // Cloudinary URLs
+    images: [{ type: String }],
     stock: { type: Number, default: 0 },
     isFeatured: { type: Boolean, default: false },
     tags: [{ type: String }],

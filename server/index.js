@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config(); // trigger restart to pick up .env
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');

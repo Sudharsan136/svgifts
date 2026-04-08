@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { createProduct, updateProduct, getProduct } from '../api';
 import toast from 'react-hot-toast';
 import { FiUpload, FiX, FiArrowLeft } from 'react-icons/fi';
+import imageCompression from 'browser-image-compression';
 
 const CATEGORIES = ['Festival Gifts', 'Home Decor', 'Corporate Gifts', 'Personalised Gifts', 'Pooja Items', 'Other'];
 
@@ -51,11 +52,31 @@ export default function ProductForm() {
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
-    setNewImages((prev) => [...prev, ...files]);
-    const newPreviews = files.map((f) => URL.createObjectURL(f));
-    setPreviews((prev) => [...prev, ...newPreviews]);
+    
+    // Compress immediately upon selection!
+    const options = {
+      maxSizeMB: 0.5,          // Squeeze down to ~500KB max
+      maxWidthOrHeight: 1200, // Maximum resolution width
+      useWebWorker: true,
+    };
+
+    try {
+      toast.loading('Compressing images...', { id: 'compress' });
+      const compressedFiles = await Promise.all(
+        files.map((file) => imageCompression(file, options))
+      );
+      toast.dismiss('compress');
+      
+      setNewImages((prev) => [...prev, ...compressedFiles]);
+      const newPreviews = compressedFiles.map((f) => URL.createObjectURL(f));
+      setPreviews((prev) => [...prev, ...newPreviews]);
+    } catch (error) {
+      console.error(error);
+      toast.dismiss('compress');
+      toast.error('Failed to compress images');
+    }
   };
 
   const addUrl = () => {
@@ -68,7 +89,7 @@ export default function ProductForm() {
     setPreviews((prev) => prev.filter((_, idx) => idx !== i));
     setNewImages((prev) => prev.filter((_, idx) => idx !== i));
   };
-  
+
   const removeUrl = (i) => setPastedUrls((prev) => prev.filter((_, idx) => idx !== i));
   const removeExisting = (i) => setExistingImages((prev) => prev.filter((_, idx) => idx !== i));
 
@@ -86,12 +107,10 @@ export default function ProductForm() {
       });
       newImages.forEach((img) => fd.append('images', img));
       pastedUrls.forEach((url) => fd.append('imageUrls', url));
-      
+
       if (isEdit) {
         existingImages.forEach((img) => fd.append('existingImages', img));
       }
-
-      // Removed strict image validation to allow updating products that have no images
 
       if (isEdit) {
         await updateProduct(id, fd);
@@ -142,7 +161,7 @@ export default function ProductForm() {
           {/* Image upload */}
           <div className="card space-y-4">
             <h3 className="font-semibold text-gray-700">Product Images</h3>
-            
+
             <div className="flex gap-2 mb-2">
               <input type="url" value={urlInput} onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="Paste image link here (e.g. from WhatsApp)" className="input flex-1" />
@@ -156,7 +175,7 @@ export default function ProductForm() {
               <span className="text-sm font-medium text-gray-600">Or click to upload files from PC</span>
               <input type="file" multiple accept="image/*" onChange={handleImageChange} className="sr-only" />
             </label>
-            
+
             {/* Gallery Previews */}
             <div className="grid grid-cols-4 gap-3 mt-4">
               {existingImages.map((img, i) => (

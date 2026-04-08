@@ -84,9 +84,7 @@ router.post('/:id/reviews', async (req, res) => {
 router.post('/', protect, upload.array('images', 5), async (req, res) => {
   try {
     const { name, description, price, discountPrice, category, stock, isFeatured, tags, imageUrls } = req.body;
-    let images = req.files ? req.files.map((f) => `${req.protocol}://${req.get('host')}/uploads/${f.filename}`) : [];
-    
-    // Add any pasted URLs
+    let images = req.files ? req.files.map((f) => f.path) : [];
     if (imageUrls) {
       const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
       images = [...images, ...urls];
@@ -120,9 +118,9 @@ router.put('/:id', protect, upload.array('images', 5), async (req, res) => {
 
     const { name, description, price, discountPrice, category, stock, isFeatured, tags, imageUrls, existingImages } = req.body;
     
-    // Compile retained images, new files, and new pasted URLs
+    // Keep existing images + add new files and pasted URLs
     let compiledImages = existingImages ? (Array.isArray(existingImages) ? existingImages : [existingImages]) : [];
-    if (req.files) compiledImages.push(...req.files.map((f) => `${req.protocol}://${req.get('host')}/uploads/${f.filename}`));
+    if (req.files) compiledImages.push(...req.files.map((f) => f.path));
     if (imageUrls) {
       const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
       compiledImages.push(...urls);
