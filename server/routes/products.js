@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 const { protect } = require('../middleware/auth');
-const { upload } = require('../config/cloudinary');
 
 // @route  GET /api/products
 // @desc   Get all products (with optional filters)
@@ -81,13 +80,13 @@ router.post('/:id/reviews', async (req, res) => {
 // @route  POST /api/products
 // @desc   Create product (Admin only)
 // @access Private
-router.post('/', protect, upload.array('images', 5), async (req, res) => {
+router.post('/', protect, async (req, res) => {
   try {
     const { name, description, price, discountPrice, category, stock, isFeatured, tags, imageUrls } = req.body;
-    let images = req.files ? req.files.map((f) => f.path) : [];
+    let images = [];
     if (imageUrls) {
       const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
-      images = [...images, ...urls];
+      images = [...urls];
     }
 
     const product = await Product.create({
@@ -97,8 +96,8 @@ router.post('/', protect, upload.array('images', 5), async (req, res) => {
       discountPrice: discountPrice ? Number(discountPrice) : null,
       category,
       stock: Number(stock),
-      isFeatured: isFeatured === 'true',
-      tags: tags ? tags.split(',').map((t) => t.trim()) : [],
+      isFeatured: isFeatured === true || isFeatured === 'true',
+      tags: tags ? (Array.isArray(tags) ? tags : tags.split(',').map((t) => t.trim())) : [],
       images,
     });
 
@@ -111,16 +110,15 @@ router.post('/', protect, upload.array('images', 5), async (req, res) => {
 // @route  PUT /api/products/:id
 // @desc   Update product (Admin only)
 // @access Private
-router.put('/:id', protect, upload.array('images', 5), async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
     const { name, description, price, discountPrice, category, stock, isFeatured, tags, imageUrls, existingImages } = req.body;
     
-    // Keep existing images + add new files and pasted URLs
+    // Keep existing images + add new compiled URLs
     let compiledImages = existingImages ? (Array.isArray(existingImages) ? existingImages : [existingImages]) : [];
-    if (req.files) compiledImages.push(...req.files.map((f) => f.path));
     if (imageUrls) {
       const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
       compiledImages.push(...urls);
@@ -129,13 +127,16 @@ router.put('/:id', protect, upload.array('images', 5), async (req, res) => {
     product.name = name || product.name;
     product.description = description || product.description;
     product.price = price ? Number(price) : product.price;
-    product.discountPrice = discountPrice ? Number(discountPrice) : product.discountPrice;
+    product.discountPrice = discountPrice !== undefined ? (discountPrice ? Number(discountPrice) : null) : product.discountPrice;
     product.category = category || product.category;
     product.stock = stock !== undefined ? Number(stock) : product.stock;
-    product.isFeatured = isFeatured !== undefined ? isFeatured === 'true' : product.isFeatured;
-    product.tags = tags ? tags.split(',').map((t) => t.trim()) : product.tags;
+    product.isFeatured = isFeatured !== undefined ? (isFeatured === true || isFeatured === 'true') : product.isFeatured;
     
-    if (compiledImages.length > 0) product.images = compiledImages;
+    if (tags !== undefined) {
+      product.tags = Array.isArray(tags) ? tags : tags.split(',').map((t) => t.trim());
+    }
+    
+    product.images = compiledImages; // Explicitly set to support removal of all images
 
     const updated = await product.save();
     res.json(updated);

@@ -18,8 +18,8 @@ export const getMe = () => adminAPI.get('/auth/me');
 // Products
 export const getProducts = (params) => adminAPI.get('/products', { params });
 export const getProduct = (id) => adminAPI.get(`/products/${id}`);
-export const createProduct = (formData) => adminAPI.post('/products', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-export const updateProduct = (id, formData) => adminAPI.put(`/products/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+export const createProduct = (data) => adminAPI.post('/products', data);
+export const updateProduct = (id, data) => adminAPI.put(`/products/${id}`, data);
 export const deleteProduct = (id) => adminAPI.delete(`/products/${id}`);
 
 // Orders

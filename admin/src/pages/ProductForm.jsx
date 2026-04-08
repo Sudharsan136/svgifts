@@ -95,31 +95,58 @@ export default function ProductForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    let finalImageUrlList = [...pastedUrls];
+    
+    // Auto-upload the compressed files directly to Cloudinary
     try {
-      const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => {
-        if (k === 'category' && v === 'Other' && customCategory.trim()) {
-          fd.append(k, customCategory.trim());
-        } else {
-          fd.append(k, v);
-        }
-      });
-      newImages.forEach((img) => fd.append('images', img));
-      pastedUrls.forEach((url) => fd.append('imageUrls', url));
+      if (newImages.length > 0) {
+        toast.loading('Uploading images instantly to Cloudinary...', { id: 'uploading' });
+        const uploadPromises = newImages.map(async (file) => {
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('upload_preset', 'svgifts_preset');
 
-      if (isEdit) {
-        existingImages.forEach((img) => fd.append('existingImages', img));
+          const response = await fetch('https://api.cloudinary.com/v1_1/dwky1u6ui/image/upload', {
+            method: 'POST',
+            body: formData,
+          });
+          const data = await response.json();
+          if (data.secure_url) {
+             return data.secure_url;
+          }
+           throw new Error('Cloudinary upload failed');
+        });
+
+        const uploadedUrls = await Promise.all(uploadPromises);
+        finalImageUrlList = [...finalImageUrlList, ...uploadedUrls];
+        toast.dismiss('uploading');
       }
 
+      // Prepare final JSON payload
+      const payload = { ...form };
+      if (payload.category === 'Other' && customCategory.trim()) {
+        payload.category = customCategory.trim();
+      }
+      
+      payload.imageUrls = finalImageUrlList;
       if (isEdit) {
-        await updateProduct(id, fd);
+        payload.existingImages = [...existingImages];
+      }
+
+      toast.loading('Saving product details...', { id: 'saving' });
+      if (isEdit) {
+        await updateProduct(id, payload);
         toast.success('Product updated!');
       } else {
-        await createProduct(fd);
+        await createProduct(payload);
         toast.success('Product created!');
       }
+      toast.dismiss('saving');
       navigate('/products');
     } catch (err) {
+      console.error(err);
+      toast.dismiss('uploading');
+      toast.dismiss('saving');
       toast.error(err.response?.data?.message || 'Failed to save product');
     } finally {
       setLoading(false);
