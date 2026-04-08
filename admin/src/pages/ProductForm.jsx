@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { createProduct, updateProduct, getProduct } from '../api';
 import toast from 'react-hot-toast';
 import { FiUpload, FiX, FiArrowLeft } from 'react-icons/fi';
+import imageCompression from 'browser-image-compression';
 
 const CATEGORIES = ['Festival Gifts', 'Home Decor', 'Corporate Gifts', 'Personalised Gifts', 'Pooja Items', 'Other'];
 
@@ -51,11 +52,30 @@ export default function ProductForm() {
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
-    setNewImages((prev) => [...prev, ...files]);
-    const newPreviews = files.map((f) => URL.createObjectURL(f));
-    setPreviews((prev) => [...prev, ...newPreviews]);
+    
+    const options = {
+      maxSizeMB: 0.5,
+      maxWidthOrHeight: 1200,
+      useWebWorker: true,
+    };
+
+    try {
+      toast.loading('Compressing images...', { id: 'compress' });
+      const compressedFiles = await Promise.all(
+        files.map((file) => imageCompression(file, options))
+      );
+      toast.dismiss('compress');
+      
+      setNewImages((prev) => [...prev, ...compressedFiles]);
+      const newPreviews = compressedFiles.map((f) => URL.createObjectURL(f));
+      setPreviews((prev) => [...prev, ...newPreviews]);
+    } catch (error) {
+      console.error(error);
+      toast.dismiss('compress');
+      toast.error('Failed to compress images');
+    }
   };
 
   const addUrl = () => {
