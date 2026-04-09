@@ -103,7 +103,10 @@ export default function Products() {
                         <span className="font-medium text-gray-800 line-clamp-1">{p.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{p.category}</td>
+                    <td className="px-6 py-4 text-gray-600">
+                      <div>{p.category}</div>
+                      {p.subCategory && <div className="text-xs text-gray-400 mt-0.5">{p.subCategory}</div>}
+                    </td>
                     <td className="px-6 py-4 font-semibold text-gray-800">
                       ₹{p.discountPrice || p.price}
                       {p.discountPrice && <span className="text-gray-400 line-through text-xs ml-1">₹{p.price}</span>}

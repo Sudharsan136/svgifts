@@ -74,11 +74,16 @@ export default function Shop() {
     }
   }, [products, category]);
 
-  // Group products by category when showing "All"
+  // Group products by category when showing "All", otherwise group by subCategory
   const groupedProducts = products.reduce((acc, p) => {
-    const cat = p.category || 'Uncategorized';
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(p);
+    let groupKey;
+    if (category === 'All') {
+      groupKey = p.category || 'Uncategorized';
+    } else {
+      groupKey = p.subCategory || 'Other';
+    }
+    if (!acc[groupKey]) acc[groupKey] = [];
+    acc[groupKey].push(p);
     return acc;
   }, {});
 
@@ -151,42 +156,45 @@ export default function Shop() {
           <p className="text-gray-500 mb-6">Try a different search term or category</p>
           <button onClick={clearFilters} className="btn-primary inline-flex">Browse All Products</button>
         </div>
-      ) : category === 'All' && !search && !sort ? (
+      ) : !search && !sort ? (
         <div className="space-y-16">
-          {Object.entries(groupedProducts).map(([catName, items]) => (
-            <section key={catName}>
+          {Object.entries(groupedProducts).map(([groupName, items]) => (
+            <section key={groupName}>
               <div className="flex items-end justify-between mb-6 pb-4 border-b border-gray-100">
                 <div className="flex items-center gap-3">
                   <span className="w-2 h-8 bg-gradient-to-b from-primary-400 to-primary-600 rounded-full shadow-sm"></span>
                   <h2 className="text-2xl md:text-3xl font-display font-bold text-gray-900 tracking-tight">
-                    {catName}
+                    {groupName}
                   </h2>
                 </div>
-                <button 
-                  onClick={() => {
-                    setCategory(catName);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }} 
-                  className="text-primary-600 text-sm font-semibold hover:text-rose-500 transition-colors hidden sm:block"
-                >
-                  View All {items.length} →
-                </button>
+                {category === 'All' && (
+                  <button 
+                    onClick={() => {
+                      setCategory(groupName);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }} 
+                    className="text-primary-600 text-sm font-semibold hover:text-rose-500 transition-colors hidden sm:block"
+                  >
+                    View All {items.length} →
+                  </button>
+                )}
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                {items.slice(0, 4).map((p) => (
-                  <ProductCard key={p._id} product={p} />
-                ))}
+                {category === 'All' 
+                  ? items.slice(0, 4).map((p) => <ProductCard key={p._id} product={p} />)
+                  : items.map((p) => <ProductCard key={p._id} product={p} />)
+                }
               </div>
-              {items.length > 4 && (
+              {category === 'All' && items.length > 4 && (
                 <div className="mt-8 text-center sm:hidden">
                   <button 
                     onClick={() => {
-                      setCategory(catName);
+                      setCategory(groupName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }} 
                     className="btn-secondary w-full"
                   >
-                    View All {items.length} {catName}
+                    View All {items.length} {groupName}
                   </button>
                 </div>
               )}

@@ -10,6 +10,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    subCategory: {
+      type: String,
+      default: '',
+    },
     images: [{ type: String }],
     stock: { type: Number, default: 0 },
     isFeatured: { type: Boolean, default: false },

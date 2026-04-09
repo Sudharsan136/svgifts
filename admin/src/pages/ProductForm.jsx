@@ -5,12 +5,11 @@ import toast from 'react-hot-toast';
 import { FiUpload, FiX, FiArrowLeft } from 'react-icons/fi';
 import imageCompression from 'browser-image-compression';
 
-const CATEGORIES = ['Festival Gifts', 'Home Decor', 'Corporate Gifts', 'Personalised Gifts', 'Pooja Items', 'Other'];
-
 export default function ProductForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEdit = Boolean(id);
+  
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(isEdit);
   const [existingImages, setExistingImages] = useState([]);
@@ -19,11 +18,10 @@ export default function ProductForm() {
 
   const [pastedUrls, setPastedUrls] = useState([]);
   const [urlInput, setUrlInput] = useState('');
-  const [customCategory, setCustomCategory] = useState('');
 
   const [form, setForm] = useState({
     name: '', description: '', price: '', discountPrice: '',
-    category: 'Festival Gifts', stock: '', isFeatured: false, tags: '',
+    category: '', subCategory: '', stock: '', isFeatured: false, tags: '',
   });
 
   useEffect(() => {
@@ -31,15 +29,11 @@ export default function ProductForm() {
       getProduct(id)
         .then((res) => {
           const p = res.data;
-          const isStandardCategory = CATEGORIES.includes(p.category);
           setForm({
             name: p.name, description: p.description, price: p.price,
-            discountPrice: p.discountPrice || '', category: isStandardCategory ? p.category : 'Other',
+            discountPrice: p.discountPrice || '', category: p.category || '', subCategory: p.subCategory || '',
             stock: p.stock, isFeatured: p.isFeatured, tags: p.tags?.join(', ') || '',
           });
-          if (!isStandardCategory && p.category) {
-            setCustomCategory(p.category);
-          }
           setExistingImages(p.images || []);
         })
         .catch(() => toast.error('Failed to load product'))
@@ -97,10 +91,16 @@ export default function ProductForm() {
     setLoading(true);
     let finalImageUrlList = [...pastedUrls];
     
+    if (!form.category) {
+      toast.error('Please enter a category');
+      setLoading(false);
+      return;
+    }
+
     // Auto-upload the compressed files directly to Cloudinary
     try {
       if (newImages.length > 0) {
-        toast.loading('Uploading images instantly to Cloudinary...', { id: 'uploading' });
+        toast.loading('Uploading images...', { id: 'uploading' });
         const uploadPromises = newImages.map(async (file) => {
           const formData = new FormData();
           formData.append('file', file);
@@ -111,10 +111,12 @@ export default function ProductForm() {
             body: formData,
           });
           const data = await response.json();
+          console.log('Cloudinary response:', data);
           if (data.secure_url) {
              return data.secure_url;
           }
-           throw new Error('Cloudinary upload failed');
+          // Show the actual Cloudinary error
+          throw new Error(data.error?.message || 'Cloudinary upload failed');
         });
 
         const uploadedUrls = await Promise.all(uploadPromises);
@@ -124,9 +126,6 @@ export default function ProductForm() {
 
       // Prepare final JSON payload
       const payload = { ...form };
-      if (payload.category === 'Other' && customCategory.trim()) {
-        payload.category = customCategory.trim();
-      }
       
       payload.imageUrls = finalImageUrlList;
       if (isEdit) {
@@ -262,16 +261,27 @@ export default function ProductForm() {
             <h3 className="font-semibold text-gray-700">Organization</h3>
             <div>
               <label className="text-sm font-medium text-gray-700 mb-1 block">Category *</label>
-              <select name="category" value={form.category} onChange={handleChange} className="input">
-                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <input 
+                name="category" 
+                required 
+                value={form.category} 
+                onChange={handleChange} 
+                className="input" 
+                placeholder="e.g. Personalized gifts" 
+              />
             </div>
-            {form.category === 'Other' && (
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Custom Category Name *</label>
-                <input required value={customCategory} onChange={(e) => setCustomCategory(e.target.value)} className="input" placeholder="e.g. Birthday Gifts" />
-              </div>
-            )}
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Sub-Category</label>
+              <input 
+                name="subCategory" 
+                value={form.subCategory} 
+                onChange={handleChange} 
+                className="input" 
+                placeholder="e.g. Keychain" 
+              />
+            </div>
+
             <label className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" name="isFeatured" checked={form.isFeatured} onChange={handleChange}
                 className="w-4 h-4 rounded accent-primary-700" />

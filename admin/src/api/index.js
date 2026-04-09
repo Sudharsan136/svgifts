@@ -22,6 +22,12 @@ export const createProduct = (data) => adminAPI.post('/products', data);
 export const updateProduct = (id, data) => adminAPI.put(`/products/${id}`, data);
 export const deleteProduct = (id) => adminAPI.delete(`/products/${id}`);
 
+// Categories
+export const getCategories = () => adminAPI.get('/categories');
+export const addCategory = (data) => adminAPI.post('/categories', data);
+export const updateCategory = (id, data) => adminAPI.put(`/categories/${id}`, data);
+export const deleteCategory = (id) => adminAPI.delete(`/categories/${id}`);
+
 // Orders
 export const getOrders = () => adminAPI.get('/orders');
 export const getOrder = (id) => adminAPI.get(`/orders/${id}`);

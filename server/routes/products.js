@@ -82,7 +82,7 @@ router.post('/:id/reviews', async (req, res) => {
 // @access Private
 router.post('/', protect, async (req, res) => {
   try {
-    const { name, description, price, discountPrice, category, stock, isFeatured, tags, imageUrls } = req.body;
+    const { name, description, price, discountPrice, category, subCategory, stock, isFeatured, tags, imageUrls } = req.body;
     let images = [];
     if (imageUrls) {
       const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
@@ -95,6 +95,7 @@ router.post('/', protect, async (req, res) => {
       price: Number(price),
       discountPrice: discountPrice ? Number(discountPrice) : null,
       category,
+      subCategory: subCategory || '',
       stock: Number(stock),
       isFeatured: isFeatured === true || isFeatured === 'true',
       tags: tags ? (Array.isArray(tags) ? tags : tags.split(',').map((t) => t.trim())) : [],
@@ -115,7 +116,7 @@ router.put('/:id', protect, async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
-    const { name, description, price, discountPrice, category, stock, isFeatured, tags, imageUrls, existingImages } = req.body;
+    const { name, description, price, discountPrice, category, subCategory, stock, isFeatured, tags, imageUrls, existingImages } = req.body;
     
     // Keep existing images + add new compiled URLs
     let compiledImages = existingImages ? (Array.isArray(existingImages) ? existingImages : [existingImages]) : [];
@@ -129,6 +130,7 @@ router.put('/:id', protect, async (req, res) => {
     product.price = price ? Number(price) : product.price;
     product.discountPrice = discountPrice !== undefined ? (discountPrice ? Number(discountPrice) : null) : product.discountPrice;
     product.category = category || product.category;
+    product.subCategory = subCategory !== undefined ? subCategory : product.subCategory;
     product.stock = stock !== undefined ? Number(stock) : product.stock;
     product.isFeatured = isFeatured !== undefined ? (isFeatured === true || isFeatured === 'true') : product.isFeatured;
     
@@ -136,7 +138,7 @@ router.put('/:id', protect, async (req, res) => {
       product.tags = Array.isArray(tags) ? tags : tags.split(',').map((t) => t.trim());
     }
     
-    product.images = compiledImages; // Explicitly set to support removal of all images
+    product.images = compiledImages;
 
     const updated = await product.save();
     res.json(updated);
