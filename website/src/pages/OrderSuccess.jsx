@@ -34,9 +34,9 @@ export default function OrderSuccess() {
           </div>
         )}
 
-        {paymentMethod !== 'razorpay' && (
+        {paymentMethod !== 'razorpay' && order && (
           <a
-            href={`https://wa.me/919047529439?text=Hi! I placed order #${order?._id?.slice(-8).toUpperCase()}. Please confirm it.`}
+            href={`https://wa.me/919047529439?text=${encodeURIComponent(`Hi SV Gifts! 👋\n\nI am ${order.customerName} and I want to track my order #${order._id.slice(-8).toUpperCase()}.\n\nCan you please provide an update on my delivery?`)}`}
             target="_blank" rel="noopener noreferrer"
             className="btn-whatsapp justify-center w-full mb-4 text-base"
           >
