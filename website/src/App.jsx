@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
+import About from './pages/About';
 
 // If logged in, redirect away from /login and /signup to home
 function GuestRoute({ children }) {
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
 
                 {/* Guest only — redirect to home if already logged in */}
