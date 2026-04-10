@@ -106,8 +106,14 @@ export default function Profile() {
                             <h4 className="font-semibold text-gray-900">{item.name}</h4>
                             <p className="text-sm text-gray-500">Qty: {item.qty} × ₹{item.price}</p>
                           </div>
-                          <div className="font-bold text-gray-900">
-                            ₹{item.qty * item.price}
+                          <div className="font-bold text-gray-900 text-right">
+                            <div className="mb-2">₹{item.qty * item.price}</div>
+                            <a 
+                              href={`/product/${item.product?._id || item.product}`} 
+                              className="text-xs text-brand-pink font-semibold border border-brand-pink/30 bg-brand-pink/5 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full transition-colors"
+                            >
+                              ★ Write Review
+                            </a>
                           </div>
                         </div>
                       ))}
