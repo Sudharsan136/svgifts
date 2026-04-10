@@ -1,6 +1,6 @@
 import { FaWhatsapp } from 'react-icons/fa';
 
-const WA_NUMBER = '241974967849040';
+const WA_NUMBER = '919047529439';
 
 export default function WhatsAppFloat() {
   return (

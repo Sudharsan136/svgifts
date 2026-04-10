@@ -36,7 +36,7 @@ export default function OrderSuccess() {
 
         {paymentMethod !== 'razorpay' && (
           <a
-            href={`https://wa.me/241974967849040?text=Hi! I placed order #${order?._id?.slice(-8).toUpperCase()}. Please confirm it.`}
+            href={`https://wa.me/919047529439?text=Hi! I placed order #${order?._id?.slice(-8).toUpperCase()}. Please confirm it.`}
             target="_blank" rel="noopener noreferrer"
             className="btn-whatsapp justify-center w-full mb-4 text-base"
           >

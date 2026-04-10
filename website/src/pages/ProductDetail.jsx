@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
 
-const WA_NUMBER = '241974967849040';
+const WA_NUMBER = '919047529439';
 
 export default function ProductDetail() {
   const { id } = useParams();

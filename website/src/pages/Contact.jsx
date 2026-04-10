@@ -17,7 +17,7 @@ export default function Contact() {
             <div className="space-y-6">
               {[
                 { icon: FiMapPin, label: 'Headquarters', val: 'Thanjavur, Tamil Nadu, India' },
-                { icon: FiPhone, label: 'WhatsApp Concierge', val: '+91 241 974 967 849 040', href: 'https://wa.me/241974967849040' },
+                { icon: FiPhone, label: 'WhatsApp Concierge', val: '+91 241 974 967 849 040', href: 'https://wa.me/919047529439' },
                 { icon: FiMail, label: 'Email Support', val: 'svgifts@email.com', href: 'mailto:svgifts@email.com' },
               ].map(({ icon: Icon, label, val, href }) => (
                 <div key={label} className="flex items-start gap-4">
@@ -38,7 +38,7 @@ export default function Contact() {
           </div>
 
           <a
-            href="https://wa.me/241974967849040?text=Hi! I have a query about your products."
+            href="https://wa.me/919047529439?text=Hi! I have a query about your products."
             target="_blank" rel="noopener noreferrer"
             className="btn-whatsapp justify-center w-full text-lg py-5 shadow-2xl"
           >
@@ -53,7 +53,7 @@ export default function Contact() {
             <p className="text-gray-600 mb-6 leading-relaxed">
               Need 50+ gifts for your team, event, or wedding? Connect with our dedicated concierge for exclusive bulk pricing and customized branding.
             </p>
-            <a href="https://wa.me/241974967849040?text=Hi! I need bulk pricing for corporate/event gifts."
+            <a href="https://wa.me/919047529439?text=Hi! I need bulk pricing for corporate/event gifts."
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full border border-brand-pink/20 text-brand-pink font-bold text-sm hover:bg-brand-pink hover:text-white transition-all shadow-sm">
               <FaWhatsapp size={16} /> Request Bulk Quote
@@ -72,7 +72,7 @@ export default function Contact() {
               e.preventDefault();
               const fd = new FormData(e.target);
               const msg = `Hi SV Gifts!\n\nName: ${fd.get('name')}\nPhone: ${fd.get('phone')}\n\nMessage: ${fd.get('message')}`;
-              window.open(`https://wa.me/241974967849040?text=${encodeURIComponent(msg)}`, '_blank');
+              window.open(`https://wa.me/919047529439?text=${encodeURIComponent(msg)}`, '_blank');
             }}
             className="space-y-6 relative z-10"
           >

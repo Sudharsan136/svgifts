@@ -46,9 +46,48 @@ export default function About() {
             A brand born from passion, built on trust, and dedicated to making you feel special.
           </p>
         </div>
-        {/* Decorative blobs */}
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
+      </section>
+
+      {/* ── Brand Story Section ── */}
+      <section className="brand-section">
+        <div className="brand-container">
+          <div className="brand-content">
+            <span className="about-tag">About SV Gifts by SV</span>
+            <h2 className="brand-title">Born From a Love of Gifting</h2>
+
+            <div className="brand-paragraphs">
+              <p>
+                <strong>SV Gifts by SV</strong> was born out of a deep love for gifting and a
+                passion for creating meaningful experiences. What started as a personal joy of
+                selecting and sharing beautiful items has grown into a brand dedicated to
+                spreading happiness through thoughtful gifts.
+              </p>
+              <p>
+                At SV Gifts by SV, every product is carefully <strong>handpicked</strong> with
+                attention to quality, uniqueness, and value. Each item reflects a blend of
+                personal taste and a commitment to ensuring that what you receive is something
+                truly special.
+              </p>
+              <p>
+                We believe that gifting is more than just an exchange — it's about{' '}
+                <em>creating memories, expressing emotions, and making moments unforgettable.</em>{' '}
+                That's why we focus on delivering the best quality products at the right time,
+                ensuring every gift brings a smile.
+              </p>
+            </div>
+
+            <div className="brand-tagline-card">
+              <span className="brand-tagline-icon">🎁</span>
+              <div>
+                <p className="brand-tagline-quote">
+                  "From our hands to yours, every gift carries a story — crafted with care,
+                  chosen with passion."
+                </p>
+                <p className="brand-tagline-name">SV Gifts by SV — Making Memories Through Gifting.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── Founder Section ── */}
@@ -200,29 +239,73 @@ export default function About() {
           line-height: 1.7;
         }
 
-        /* Blobs */
-        .blob {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(60px);
-          opacity: 0.25;
-          pointer-events: none;
+        /* BRAND STORY */
+        .brand-section {
+          padding: 80px 24px;
+          background: #ffffff;
         }
-        .blob-1 {
-          width: 320px; height: 320px;
-          background: #ff2a85;
-          top: -100px; right: -80px;
-          animation: float 8s ease-in-out infinite;
+        .brand-container {
+          max-width: 900px;
+          margin: 0 auto;
+          text-align: center;
         }
-        .blob-2 {
-          width: 240px; height: 240px;
-          background: #ff758c;
-          bottom: -60px; left: -60px;
-          animation: float 10s ease-in-out infinite reverse;
+        .brand-title {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2rem, 4vw, 2.8rem);
+          font-weight: 700;
+          color: #1c1c1c;
+          margin-bottom: 32px;
+          margin-top: 12px;
         }
-        @keyframes float {
-          0%, 100% { transform: translateY(0) scale(1); }
-          50%       { transform: translateY(-20px) scale(1.05); }
+        .brand-paragraphs {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          margin-bottom: 40px;
+          text-align: left;
+        }
+        .brand-paragraphs p {
+          font-size: 1.05rem;
+          line-height: 1.8;
+          color: #555;
+        }
+        .brand-paragraphs strong {
+          color: #1c1c1c;
+          font-weight: 600;
+        }
+        .brand-paragraphs em {
+          color: #ff2a85;
+          font-style: italic;
+        }
+        .brand-tagline-card {
+          background: linear-gradient(135deg, #fff0f5, #fff8fb);
+          border: 1px solid #ffe4ec;
+          border-radius: 24px;
+          padding: 32px;
+          display: flex;
+          gap: 24px;
+          align-items: flex-start;
+          text-align: left;
+          box-shadow: 0 10px 30px rgba(255, 42, 133, 0.05);
+        }
+        .brand-tagline-icon {
+          font-size: 2.5rem;
+          line-height: 1;
+        }
+        .brand-tagline-quote {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.25rem;
+          font-style: italic;
+          color: #1c1c1c;
+          line-height: 1.6;
+          margin-bottom: 12px;
+        }
+        .brand-tagline-name {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #ff2a85;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         /* FOUNDER */
@@ -273,23 +356,24 @@ export default function About() {
           max-width: 340px;
           aspect-ratio: 3/4;
           object-fit: cover;
-          object-position: top center;
+          object-position: center 15%;
           border-radius: 24px;
           box-shadow: 0 30px 80px rgba(255, 42, 133, 0.2);
           border: 4px solid white;
         }
         .founder-badge {
           margin-top: 16px;
-          background: linear-gradient(135deg, #ff2a85, #ff758c);
-          color: white;
-          padding: 8px 20px;
+          background: #1c1c1c;
+          color: #ffffff;
+          padding: 10px 24px;
           border-radius: 100px;
           font-size: 13px;
           font-weight: 700;
-          letter-spacing: 0.05em;
-          box-shadow: 0 4px 20px rgba(255, 42, 133, 0.35);
+          letter-spacing: 0.08em;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
           position: relative;
           z-index: 1;
+          border: 2px solid #ff2a85;
         }
 
         /* Bio */

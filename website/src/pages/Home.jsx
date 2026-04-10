@@ -89,7 +89,7 @@ export default function Home() {
                   Explore Collection <FiArrowRight />
                 </Link>
                 <a
-                  href="https://wa.me/241974967849040?text=Hi! I want to place a bulk order."
+                  href="https://wa.me/919047529439?text=Hi! I want to place a bulk order."
                   target="_blank" rel="noopener noreferrer"
                   className="btn-secondary text-lg px-8 py-4 flex items-center gap-2"
                 >
@@ -201,7 +201,7 @@ export default function Home() {
                   <div className="text-6xl mb-6 opacity-80">🎀</div>
                   <h3 className="font-display text-2xl font-bold text-gray-900 mb-2">Curating New Magic</h3>
                   <p className="text-gray-500 mb-6">Our featured showcase is currently being updated.</p>
-                  <a href="https://wa.me/241974967849040" target="_blank" rel="noopener noreferrer"
+                  <a href="https://wa.me/919047529439" target="_blank" rel="noopener noreferrer"
                     className="btn-whatsapp mx-auto inline-flex">
                     <FaWhatsapp size={20} /> Request Catalog
                   </a>
@@ -234,7 +234,7 @@ export default function Home() {
               Elevate your corporate gifting, festival giveaways, or wedding favors with our bespoke curation. Connect with our luxury gifting concierge today.
             </p>
             <a
-              href="https://wa.me/241974967849040?text=Hi! I want to discuss a premium bulk order."
+              href="https://wa.me/919047529439?text=Hi! I want to discuss a premium bulk order."
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-white text-gray-900 font-bold text-lg md:text-xl px-10 py-5 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300"
             >
