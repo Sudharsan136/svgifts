@@ -141,7 +141,15 @@ export default function Orders() {
                     <option value="cancelled">Cancelled</option>
                   </select>
                   <a
-                    href={`https://wa.me/${o.customerPhone.replace(/\D/g, '')}?text=Hi ${o.customerName}, regarding your SV Gifts order #${o._id.slice(-8).toUpperCase()}...`}
+                    href={`https://wa.me/${o.customerPhone.replace(/\D/g, '')}?text=${encodeURIComponent(
+                      `Hi ${o.customerName}, regarding your SV Gifts order #${o._id.slice(-8).toUpperCase()}.\n\n` +
+                      (o.status === 'pending' ? 'We have received your order and it is pending review.' :
+                       o.status === 'confirmed' ? 'Great news! Your order has been confirmed and is being prepared.' :
+                       o.status === 'shipped' ? 'Your order has been shipped and is on its way!' :
+                       o.status === 'delivered' ? 'Your order has been successfully delivered! We hope you love it 🎁.' :
+                       o.status === 'cancelled' ? 'This is an update that your order has been cancelled.' :
+                       'We are reaching out to you regarding your order.')
+                    )}`}
                     target="_blank" rel="noopener noreferrer"
                     className="btn-ghost flex items-center justify-center gap-2 border border-green-200 text-green-700 hover:bg-green-50 py-1.5 text-sm"
                   >

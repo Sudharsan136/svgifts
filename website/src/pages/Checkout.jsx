@@ -62,7 +62,8 @@ export default function Checkout() {
 
         if (paymentMethod === 'whatsapp_cod') {
           const itemsList = cart.map((i) => `• ${i.name} x${i.qty} — ₹${(i.discountPrice || i.price) * i.qty}`).join('\n');
-          const msg = `Hi SV Gifts! 🎁 I placed an order:\n\nName: ${form.customerName}\nPhone: ${form.customerPhone}\nAddress: ${form.address}, ${form.city}, ${form.pincode}\n\nItems:\n${itemsList}\n\nTotal: ₹${total}\n\nOrder ID: ${res.data._id}`;
+          const shortId = res.data._id.slice(-8).toUpperCase();
+          const msg = `Hi SV Gifts! 🎁 I placed an order:\n\nName: ${form.customerName}\nPhone: ${form.customerPhone}\nAddress: ${form.address}, ${form.city}, ${form.pincode}\n\nItems:\n${itemsList}\n\nTotal: ₹${total}\n\nOrder ID: #${shortId}`;
           setTimeout(() => window.open(`https://wa.me/919047529439?text=${encodeURIComponent(msg)}`, '_blank'), 500);
         }
       } else {
