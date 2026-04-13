@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getMyOrders } from '../api';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
   const { currentUser, logout } = useAuth();
@@ -100,20 +101,24 @@ export default function Profile() {
                   <div className="p-6">
                     <div className="flex flex-col gap-4">
                       {order.items.map((item, index) => (
-                        <div key={index} className="flex gap-4 items-center">
-                          <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-xl border border-gray-100" />
+                        <div key={index} className="flex gap-4 items-center group">
+                          <Link to={`/product/${item.product?._id || item.product}`} className="shrink-0 relative overflow-hidden rounded-xl border border-gray-100">
+                            <img src={item.image} alt={item.name} className="w-16 h-16 object-cover transition-transform group-hover:scale-105" />
+                          </Link>
                           <div className="flex-1">
-                            <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                            <p className="text-sm text-gray-500">Qty: {item.qty} × ₹{item.price}</p>
+                            <Link to={`/product/${item.product?._id || item.product}`}>
+                              <h4 className="font-semibold text-gray-900 hover:text-brand-pink transition-colors">{item.name}</h4>
+                            </Link>
+                            <p className="text-sm text-gray-500 mt-0.5">Qty: {item.qty} × ₹{item.price}</p>
                           </div>
                           <div className="font-bold text-gray-900 text-right">
                             <div className="mb-2">₹{item.qty * item.price}</div>
-                            <a 
-                              href={`/product/${item.product?._id || item.product}`} 
-                              className="text-xs text-brand-pink font-semibold border border-brand-pink/30 bg-brand-pink/5 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full transition-colors"
+                            <Link 
+                              to={`/product/${item.product?._id || item.product}`} 
+                              className="text-xs text-brand-pink font-semibold border border-brand-pink/30 bg-brand-pink/5 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full inline-block transition-colors"
                             >
                               ★ Write Review
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       ))}
