@@ -53,7 +53,7 @@ export default function About() {
         <div className="brand-container">
           <div className="brand-content">
             <span className="about-tag">About SV Gifts by SV</span>
-            <h2 className="brand-title">Born From a Love of Gifting</h2>
+            <h2 className="brand-title">Born From a Love for Gifting</h2>
 
             <div className="brand-paragraphs">
               <p>
