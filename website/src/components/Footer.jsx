@@ -27,7 +27,7 @@ export default function Footer() {
               <a href="https://www.instagram.com/sv__gifts/?hl=en" className="w-9 h-9 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors">
                 <FiInstagram size={18} />
               </a>
-              <a href="#" className="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors">
+              <a href="https://share.google/VUAVgcSr72BZCUX19" className="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors">
                 <FaGoogle size={18} />
               </a>
             </div>
