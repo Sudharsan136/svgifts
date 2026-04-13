@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiGift, FiTruck, FiShield, FiStar } from 'react-icons/fi';
+import { FiArrowRight, FiGift, FiTruck, FiShield, FiStar, FiBriefcase, FiHeart, FiHome, FiSun } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../api';
 import logo from '../assets/logo.jpg';
 
 const CATEGORIES = [
-  { name: 'Festival Gifts', emoji: '🎉', color: 'bg-gradient-to-br from-[#ff2a85] to-[#ff6b6b]' },
-  { name: 'Corporate Gifts', emoji: '💼', color: 'bg-gradient-to-br from-[#ff758c] to-[#ffa3b1]' },
-  { name: 'Personalised Gifts', emoji: '💝', color: 'bg-gradient-to-br from-[#1c1c1c] to-[#3a3a3a]' },
-  { name: 'Home Decor', emoji: '🏡', color: 'bg-gradient-to-br from-indigo-500 to-purple-600' },
-  { name: 'Pooja Items', emoji: '🪔', color: 'bg-gradient-to-br from-pink-400 to-rose-500' },
+  { name: 'Festival Gifts', icon: FiStar, color: 'bg-rose-50 text-rose-600 border-rose-100', hoverInfo: 'Joyful celebrations' },
+  { name: 'Corporate Gifts', icon: FiBriefcase, color: 'bg-indigo-50 text-indigo-600 border-indigo-100', hoverInfo: 'Bulk branding' },
+  { name: 'Personalised Gifts', icon: FiHeart, color: 'bg-pink-50 text-pink-600 border-pink-100', hoverInfo: 'A custom touch' },
+  { name: 'Home Decor', icon: FiHome, color: 'bg-amber-50 text-amber-600 border-amber-100', hoverInfo: 'Elegant living' },
+  { name: 'Pooja Items', icon: FiSun, color: 'bg-orange-50 text-orange-600 border-orange-100', hoverInfo: 'Divine rituals' },
 ];
 
 const FEATURES = [
@@ -59,10 +59,17 @@ export default function Home() {
   return (
     <main className="overflow-hidden">
       {/* ─── Luxury Hero Section ─────────────────────────────── */}
-      <section className="relative min-h-[90vh] flex items-center pt-20 pb-12">
-        {/* Animated Background Orbs */}
-        <div className="absolute top-0 right-10 w-96 h-96 bg-brand-pink/20 rounded-full blur-[100px] animate-float pointer-events-none" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 bg-brand-softpink/20 rounded-full blur-[100px] animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
+      <section className="relative min-h-[90vh] flex items-center pt-20 pb-12 overflow-hidden bg-[#fff5f7]">
+        {/* Modern Soft Grid Pattern */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\' fill=\'%23fb7185\' fill-opacity=\'0.04\'/%3E%3C/g%3E%3C/svg%3E')] opacity-100 mix-blend-multiply pointer-events-none" />
+        
+        {/* Dynamic Mesh Gradient Blobs */}
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-pink-300/40 rounded-full blur-[120px] animate-pulse pointer-events-none" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-rose-300/30 rounded-full blur-[140px] animate-float pointer-events-none" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-[20%] right-[15%] w-[40%] h-[40%] bg-fuchsia-200/40 rounded-full blur-[100px] animate-float pointer-events-none" style={{ animationDelay: '3s' }} />
+        
+        {/* Soft bottom fade to blend with next section */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -107,30 +114,100 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Hero Visual Composition */}
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="hidden lg:block relative">
-              <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl bg-gray-900 group">
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand-pink/40 to-brand-softpink/40 opacity-50 mix-blend-overlay group-hover:opacity-70 transition-opacity duration-1000" />
-                <img src={logo} alt="SV Gifts Cover" className="absolute inset-0 w-full h-full object-cover scale-150 opacity-10 blur-xl" />
+            {/* Minimalist Premium 3D Orbital Rings */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }} className="hidden lg:flex relative h-[650px] w-full mt-10 lg:mt-0 items-center justify-center perspective-[1200px]">
+              
+              {/* Soft Ambient Core */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-rose-200/40 to-pink-100/40 blur-[100px] rounded-full pointer-events-none z-0 animate-pulse duration-[4000ms]" />
+
+              {/* 3D Orbits Container */}
+              <motion.div 
+                animate={{ rotateX: [10, -10, 10], rotateY: [-15, 15, -15] }}
+                transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
+                className="relative w-[450px] h-[450px] flex items-center justify-center transform-gpu"
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+                {/* Ring 1 - Outer Gold */}
+                <motion.div 
+                  animate={{ rotateZ: 360 }}
+                  transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+                  className="absolute inset-[-10%] border border-[#c8a97e]/20 rounded-full"
+                  style={{ transformStyle: 'preserve-3d' }}
+                />
                 
-                {/* Floating Elements inside frame */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                   <div className="w-64 h-64 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl flex flex-col items-center justify-center shadow-2xl p-6 rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer">
-                      <span className="font-display font-bold text-3xl text-white mb-4 tracking-wider drop-shadow-lg">SV Gifts</span>
-                      <img src={logo} alt="SV Gifts Logo" className="w-full h-auto max-h-32 object-contain filter drop-shadow-2xl" />
-                   </div>
-                </div>
-              </div>
-              {/* Decorative tags */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl animate-float">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-pink-50 flex items-center justify-center text-brand-pink">✨</div>
-                  <div>
-                    <div className="font-bold text-gray-900">Handcrafted</div>
-                    <div className="text-xs text-gray-500">With precision</div>
+                {/* Ring 2 - Middle Pink Dashed */}
+                <motion.div 
+                  animate={{ rotateZ: -360, rotateX: 20 }}
+                  transition={{ repeat: Infinity, duration: 35, ease: "linear" }}
+                  className="absolute inset-0 border border-brand-pink/30 border-dashed rounded-full"
+                  style={{ transformStyle: 'preserve-3d' }}
+                />
+
+                {/* Ring 3 - Inner Fine Orbit (Holds a glowing star) */}
+                <motion.div 
+                  animate={{ rotateZ: 360, rotateY: 20 }}
+                  transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+                  className="absolute inset-[10%] border border-[#c8a97e]/40 rounded-full flex items-center justify-start"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  <div className="w-3 h-3 rounded-full bg-brand-pink border shadow-[0_0_15px_rgba(255,107,107,0.8)] -translate-x-1.5" />
+                </motion.div>
+
+                {/* Ring 4 - Counter Rotating Track */}
+                <motion.div 
+                  animate={{ rotateZ: -360, rotateX: -20, rotateY: -10 }}
+                  transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+                  className="absolute inset-[20%] border-[0.5px] border-gray-400/20 rounded-full flex items-end justify-center"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                   <div className="w-2 h-2 rounded-full bg-[#c8a97e] shadow-[0_0_10px_rgba(200,169,126,0.8)] translate-y-1" />
+                </motion.div>
+
+                {/* Core Floating Glass Prism */}
+                <motion.div 
+                   initial={{ scale: 0.8 }}
+                   animate={{ scale: [1, 1.02, 1], rotateZ: [0, 2, -2, 0] }}
+                   transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+                   className="relative z-10 w-64 h-64 rounded-full bg-white/20 backdrop-blur-2xl shadow-[0_30px_60px_rgba(0,0,0,0.08)] border border-white/60 flex items-center justify-center overflow-hidden"
+                >
+                  {/* Prism reflections */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-white/60" />
+                  <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-b from-white/30 to-transparent rotate-45 transform origin-center animate-[spin_20s_linear_infinite]" />
+                  
+                  {/* Central Logo Enclosure */}
+                  <div className="relative z-20 w-48 h-48 rounded-full bg-white shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex items-center justify-center p-6 transform transition-transform hover:scale-105 duration-500 will-change-transform">
+                    <img src={logo} alt="SV Gifts" className="w-full h-full object-contain" />
                   </div>
-                </div>
-              </div>
+                </motion.div>
+                
+              </motion.div>
+
+              {/* Floating Brand Badge (Top Left) */}
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0, y: [-5, 5, -5] }}
+                transition={{ opacity: { duration: 1 }, x: { duration: 1 }, y: { repeat: Infinity, duration: 6, ease: "easeInOut" } }}
+                className="absolute top-[12%] left-[8%] z-30"
+              >
+                 <div className="relative group cursor-default">
+                   <div className="absolute inset-0 bg-gradient-to-r from-brand-pink/20 to-[#c8a97e]/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full" />
+                   <div className="bg-white/50 backdrop-blur-lg px-6 py-3 rounded-full border border-white/60 shadow-[0_10px_30px_rgba(0,0,0,0.05)] flex items-center gap-3">
+                     <span className="w-1.5 h-1.5 rounded-full bg-brand-pink animate-pulse shadow-[0_0_8px_rgba(255,107,107,0.8)]" />
+                     <span className="font-display tracking-[0.25em] uppercase text-xs font-extrabold text-gray-800">
+                       SV Gifts <span className="text-[#c8a97e] italic font-serif lowercase tracking-normal px-1">by</span> SV
+                     </span>
+                   </div>
+                 </div>
+              </motion.div>
+
+              {/* Minimal floating accent stars */}
+              <motion.div animate={{ y: [-10, 10, -10], opacity: [0.3, 0.7, 0.3] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute top-[20%] right-[15%] text-[#c8a97e] z-30">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L3 11l8.5-2.5L12 0z"/></svg>
+              </motion.div>
+              <motion.div animate={{ y: [10, -10, 10], opacity: [0.4, 0.8, 0.4] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }} className="absolute bottom-[25%] left-[20%] text-brand-pink z-30">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L3 11l8.5-2.5L12 0z"/></svg>
+              </motion.div>
+
             </motion.div>
           </div>
         </div>
@@ -160,20 +237,23 @@ export default function Home() {
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-gray-500 text-lg max-w-2xl mx-auto">Discover the perfect gift mapped to your exact occasion.</motion.p>
         </div>
         
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {CATEGORIES.map((cat) => (
-            <Link
-              key={cat.name}
-              to={`/shop?category=${encodeURIComponent(cat.name)}`}
-              className={`group relative overflow-hidden rounded-3xl p-8 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 aspect-square flex flex-col justify-center ${cat.color}`}
-            >
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
-              <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
-                <div className="text-5xl mb-4 drop-shadow-md">{cat.emoji}</div>
-                <div className="font-display font-bold text-lg leading-snug tracking-wide">{cat.name}</div>
-              </div>
-            </Link>
-          ))}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+          {CATEGORIES.map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <Link
+                key={cat.name}
+                to={`/shop?category=${encodeURIComponent(cat.name)}`}
+                className="group relative overflow-hidden rounded-3xl p-6 text-center border border-gray-100 transition-all duration-300 hover:-translate-y-2 aspect-square flex flex-col items-center justify-center bg-white shadow-sm hover:shadow-xl"
+              >
+                <div className={`w-16 h-16 rounded-full border ${cat.color} flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-inner`}>
+                  <Icon size={24} />
+                </div>
+                <div className="font-display font-extrabold text-gray-900 text-base md:text-lg leading-tight tracking-wide">{cat.name}</div>
+                <div className="text-[11px] text-gray-400 mt-2 font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">{cat.hoverInfo}</div>
+              </Link>
+            );
+          })}
         </motion.div>
       </section>
 

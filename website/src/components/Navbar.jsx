@@ -45,6 +45,14 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {currentUser && (
+              <Link
+                to="/profile"
+                className="text-gray-600 hover:text-primary-700 font-medium transition-colors"
+              >
+                My Orders
+              </Link>
+            )}
           </div>
 
           {/* Search + Cart */}
@@ -141,6 +149,15 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {currentUser && (
+              <Link
+                to="/profile"
+                onClick={() => setOpen(false)}
+                className="block py-3 text-gray-700 hover:text-primary-700 font-medium border-b border-gray-100"
+              >
+                My Orders
+              </Link>
+            )}
             
             {/* Mobile Auth */}
             <div className="mt-4 pt-4 border-t border-gray-100">

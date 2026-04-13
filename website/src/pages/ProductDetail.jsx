@@ -195,7 +195,7 @@ export default function ProductDetail() {
 
           {/* Delivery info */}
           <div className="mt-8 p-4 bg-orange-50 rounded-2xl border border-orange-100 text-sm text-gray-600 space-y-1">
-            <p>🚚 <strong>Free Delivery</strong> on orders above ₹999</p>
+            <p>🚚 <strong>Free Delivery</strong> on all orders!</p>
             <p>💳 <strong>Razorpay</strong> — UPI, Cards, NetBanking accepted</p>
             <p>📦 <strong>Cash on Delivery</strong> also available</p>
           </div>
@@ -203,7 +203,7 @@ export default function ProductDetail() {
       </div>
 
       {/* Reviews Section */}
-      <div className="mt-20 border-t border-gray-100 pt-16">
+      <div className="mt-12 border-t border-gray-100 pt-10">
         <h2 className="font-display text-3xl font-bold text-gray-900 mb-8 text-center">Customer Reviews</h2>
         
         <div className="grid md:grid-cols-3 gap-10">

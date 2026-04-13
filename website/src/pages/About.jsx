@@ -76,14 +76,15 @@ export default function About() {
               </p>
             </div>
 
-            <div className="brand-tagline-card">
-              <span className="brand-tagline-icon">🎁</span>
-              <div>
-                <p className="brand-tagline-quote">
-                  "From our hands to yours, every gift carries a story — crafted with care,
-                  chosen with passion."
+            <div className="brand-tagline-card flex items-center">
+              <span className="brand-tagline-icon mt-0">🎁</span>
+              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <p className="brand-tagline-quote font-black md:whitespace-nowrap">
+                  <b>"From our hands to yours, every gift carries a story — crafted with care, chosen with passion."</b>
                 </p>
-                <p className="brand-tagline-name">SV Gifts by SV — Making Memories Through Gifting.</p>
+                <p className="brand-tagline-name mt-1">
+                  <i>SV GIFTS BY SV — MAKING MEMORIES THROUGH GIFTING.</i>
+                </p>
               </div>
             </div>
           </div>
@@ -139,12 +140,11 @@ export default function About() {
               </p>
             </div>
 
-            <blockquote className="founder-quote">
-              "Trust, transparency, and assurance are not just words for me — they are promises
-              I stand by."
+            <blockquote className="founder-quote lg:whitespace-nowrap md:whitespace-nowrap font-black">
+              "Trust, transparency, and assurance are not just words for me — they are promises I stand by."
             </blockquote>
 
-            <p className="founder-sign">— Sree Vishmaya</p>
+            <p className="founder-sign italic">— Sree Vishmaya</p>
           </div>
         </div>
       </section>
@@ -245,7 +245,7 @@ export default function About() {
           background: #ffffff;
         }
         .brand-container {
-          max-width: 900px;
+          max-width: 1100px;
           margin: 0 auto;
           text-align: center;
         }
@@ -281,11 +281,15 @@ export default function About() {
           background: linear-gradient(135deg, #fff0f5, #fff8fb);
           border: 1px solid #ffe4ec;
           border-radius: 24px;
-          padding: 32px;
+          padding: 28px 32px;
           display: flex;
           gap: 24px;
-          align-items: flex-start;
+          align-items: center;
           text-align: left;
+          width: fit-content;
+          margin: 0 auto;
+          max-width: 100%;
+          overflow: hidden;
           box-shadow: 0 10px 30px rgba(255, 42, 133, 0.05);
         }
         .brand-tagline-icon {
@@ -294,15 +298,15 @@ export default function About() {
         }
         .brand-tagline-quote {
           font-family: 'Playfair Display', serif;
-          font-size: 1.25rem;
-          font-style: italic;
+          font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+          font-weight: 900;
           color: #1c1c1c;
           line-height: 1.6;
-          margin-bottom: 12px;
         }
         .brand-tagline-name {
           font-size: 0.9rem;
           font-weight: 700;
+          font-style: italic;
           color: #ff2a85;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -430,14 +434,15 @@ export default function About() {
           background: linear-gradient(135deg, #fff0f5, #fff8fb);
           border-radius: 0 16px 16px 0;
           font-family: 'Playfair Display', serif;
-          font-size: 1.05rem;
-          font-style: italic;
+          font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+          font-style: normal;
           color: #2c2c2c;
           line-height: 1.7;
         }
         .founder-sign {
           font-size: 14px;
           font-weight: 600;
+          font-style: italic;
           color: #ff2a85;
           letter-spacing: 0.04em;
         }

@@ -49,12 +49,11 @@ export default function ProductCard({ product }) {
           )}
         </div>
         {/* Quick actions overlay */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
-          <Link to={`/product/${product._id}`}
-            className="px-6 py-2 bg-white rounded-full flex items-center justify-center gap-2 text-gray-900 hover:text-white hover:bg-brand-pink transition-colors shadow-2xl hover:scale-105 active:scale-95 duration-200 font-medium">
+        <Link to={`/product/${product._id}`} className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20 cursor-pointer">
+          <span className="px-6 py-2 bg-white rounded-full flex items-center justify-center gap-2 text-gray-900 hover:text-white hover:bg-brand-pink transition-colors shadow-2xl hover:scale-105 active:scale-95 duration-200 font-medium">
             <FiEye size={18} /> Quick View
-          </Link>
-        </div>
+          </span>
+        </Link>
       </div>
 
       {/* Info */}

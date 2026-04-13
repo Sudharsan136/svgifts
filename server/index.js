@@ -16,17 +16,27 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:5173', // website dev
-    'http://localhost:5174', // admin dev 1
-    'http://localhost:5175', // admin dev 2
-    'http://localhost:5176', // extra dev port
-    'http://localhost:5177', // website instance 2
-    'http://localhost:5178',
-    'http://localhost:5179',
-    process.env.WEBSITE_URL,
-    process.env.ADMIN_URL,
-  ].filter(Boolean),
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'http://localhost:5174',
+      'http://127.0.0.1:5174',
+      'http://localhost:5175',
+      'http://127.0.0.1:5175',
+      'http://localhost:5176',
+      'http://localhost:5177',
+      process.env.WEBSITE_URL,
+      process.env.ADMIN_URL,
+    ].filter(Boolean);
+    
+    // Allow if origin is in allowed list or if it's undefined (postman/curl)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());

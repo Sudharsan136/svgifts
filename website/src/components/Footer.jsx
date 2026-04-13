@@ -24,7 +24,7 @@ export default function Footer() {
                 className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors">
                 <FaWhatsapp size={18} />
               </a>
-              <a href="#" className="w-9 h-9 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors">
+              <a href="https://www.instagram.com/sv__gifts/?hl=en" className="w-9 h-9 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors">
                 <FiInstagram size={18} />
               </a>
               <a href="#" className="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors">
@@ -70,7 +70,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm text-gray-400">
                 <FiPhone className="text-primary-400 shrink-0" />
-                <a href="tel:919047529439" className="hover:text-white transition-colors">SV Gifts by SV WhatsApp</a>
+                <a href="tel:919047529439" className="hover:text-white transition-colors">+91 90475 29439</a>
               </li>
               <li className="flex items-center gap-2 text-sm text-gray-400">
                 <FiMail className="text-primary-400 shrink-0" />

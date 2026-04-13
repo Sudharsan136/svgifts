@@ -21,7 +21,7 @@ function loadRazorpay() {
 export default function Checkout() {
   const navigate = useNavigate();
   const { cart, cartTotal, clearCart } = useCart();
-  const delivery = cartTotal > 999 ? 0 : 99;
+  const delivery = 0;
   const total = cartTotal + delivery;
 
   const [form, setForm] = useState({
@@ -33,7 +33,7 @@ export default function Checkout() {
     state: '',
     pincode: '',
   });
-  const [paymentMethod, setPaymentMethod] = useState('razorpay');
+  const [paymentMethod, setPaymentMethod] = useState('whatsapp_cod');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -61,7 +61,11 @@ export default function Checkout() {
         navigate('/order-success', { state: { order: res.data, paymentMethod } });
 
         if (paymentMethod === 'whatsapp_cod') {
-          const itemsList = cart.map((i) => `• ${i.name} x${i.qty} — ₹${(i.discountPrice || i.price) * i.qty}`).join('\n');
+          const itemsList = cart.map((i) => {
+            const price = (i.discountPrice || i.price) * i.qty;
+            const imgStr = i.images?.[0] ? `\n  🖼️ Image: ${i.images[0]}` : '';
+            return `• ${i.name} x${i.qty} — ₹${price}${imgStr}`;
+          }).join('\n\n');
           const shortId = res.data._id.slice(-8).toUpperCase();
           const msg = `Hi SV Gifts! 🎁 I placed an order:\n\nName: ${form.customerName}\nPhone: ${form.customerPhone}\nAddress: ${form.address}, ${form.city}, ${form.pincode}\n\nItems:\n${itemsList}\n\nTotal: ₹${total}\n\nOrder ID: #${shortId}`;
           setTimeout(() => window.open(`https://wa.me/919047529439?text=${encodeURIComponent(msg)}`, '_blank'), 500);
@@ -183,10 +187,8 @@ export default function Checkout() {
             {/* Payment Method Card */}
             <div className="card p-10 md:p-12">
               <h3 className="font-semibold text-gray-900 mb-8 text-xl">💳 Payment Method</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {[
-                  { value: 'razorpay', label: '💳 Pay Online', desc: 'Secure Checkout' },
-                  { value: 'cod', label: '💵 Cash on Delivery', desc: 'Pay at Doorstep' },
                   { value: 'whatsapp_cod', label: '📱 WhatsApp COD', desc: 'Confirm via Chat' },
                 ].map((opt) => (
                   <label key={opt.value}

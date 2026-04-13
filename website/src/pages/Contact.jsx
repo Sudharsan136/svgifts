@@ -17,8 +17,8 @@ export default function Contact() {
             <div className="space-y-6">
               {[
                 { icon: FiMapPin, label: 'Headquarters', val: 'Thanjavur, Tamil Nadu, India' },
-                { icon: FiPhone, label: 'WhatsApp Concierge', val: '+91 241 974 967 849 040', href: 'https://wa.me/919047529439' },
-                { icon: FiMail, label: 'Email Support', val: 'svgifts@email.com', href: 'mailto:svgifts@email.com' },
+                { icon: FiPhone, label: 'WhatsApp Concierge', val: '+91 90475 29439', href: 'https://wa.me/919047529439' },
+                { icon: FiMail, label: 'Email Support', val: 'svgiftsofficial@gmail.com', href: 'mailto:svgiftsofficial@gmail.com' },
               ].map(({ icon: Icon, label, val, href }) => (
                 <div key={label} className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-brand-pink/5 flex items-center justify-center flex-shrink-0 border border-brand-pink/10 shadow-sm">

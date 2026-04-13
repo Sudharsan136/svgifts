@@ -78,19 +78,13 @@ export default function Cart() {
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Delivery</span>
-                <span className={cartTotal > 999 ? 'text-[#25D366] font-medium' : 'font-medium text-gray-900'}>
-                  {cartTotal > 999 ? 'FREE' : '₹99'}
-                </span>
+                <span className="text-[#25D366] font-medium">FREE</span>
               </div>
-              {cartTotal <= 999 && (
-                <p className="text-xs text-brand-pink bg-pink-50 p-3 rounded-xl border border-pink-100 flex items-center gap-2">
-                  <span className="animate-pulse">✨</span> Add ₹{999 - cartTotal} more for FREE delivery!
-                </p>
-              )}
+
               <div className="border-t border-gray-100 pt-4 mt-2 flex justify-between items-center text-lg text-gray-900">
                 <span className="font-bold">Total</span>
                 <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a85] to-[#ff758c] text-2xl">
-                  ₹{cartTotal + (cartTotal > 999 ? 0 : 99)}
+                  ₹{cartTotal}
                 </span>
               </div>
             </div>
