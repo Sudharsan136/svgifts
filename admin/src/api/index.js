@@ -31,7 +31,7 @@ export const deleteCategory = (id) => adminAPI.delete(`/categories/${id}`);
 // Orders
 export const getOrders = () => adminAPI.get('/orders');
 export const getOrder = (id) => adminAPI.get(`/orders/${id}`);
-export const updateOrderStatus = (id, status) => adminAPI.put(`/orders/${id}/status`, { status });
+export const updateOrderStatus = (id, status, trackingId) => adminAPI.put(`/orders/${id}/status`, { status, trackingId });
 export const deleteOrder = (id) => adminAPI.delete(`/orders/${id}`);
 
 export default adminAPI;

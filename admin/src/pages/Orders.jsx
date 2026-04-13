@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getOrders, updateOrderStatus, deleteOrder } from '../api';
 import toast from 'react-hot-toast';
-import { FiEye, FiSearch, FiMessageCircle, FiTrash2, FiPhone, FiMail, FiMapPin, FiCreditCard, FiCalendar } from 'react-icons/fi';
+import { FiEye, FiSearch, FiMessageCircle, FiTrash2, FiPhone, FiMail, FiMapPin, FiCreditCard, FiCalendar, FiEdit2 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 
 export default function Orders() {
@@ -9,6 +9,30 @@ export default function Orders() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const [trackingIds, setTrackingIds] = useState({});
+  const [editingTracking, setEditingTracking] = useState({});
+
+  useEffect(() => {
+    const tIds = {};
+    const eIds = {};
+    orders.forEach(o => { 
+      tIds[o._id] = o.trackingId || '';
+      if (!o.trackingId) eIds[o._id] = true;
+    });
+    setTrackingIds(tIds);
+    setEditingTracking(eIds);
+  }, [orders]);
+
+  const handleSaveTracking = async (id) => {
+    try {
+      await updateOrderStatus(id, undefined, trackingIds[id]);
+      toast.success('Tracking ID sent');
+      setEditingTracking(prev => ({ ...prev, [id]: false }));
+      fetchOrders();
+    } catch {
+      toast.error('Failed to send tracking ID');
+    }
+  };
 
   const fetchOrders = () => {
     setLoading(true);
@@ -22,7 +46,7 @@ export default function Orders() {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await updateOrderStatus(id, status);
+      await updateOrderStatus(id, status, trackingIds[id]);
       toast.success('Status updated');
       fetchOrders();
     } catch {
@@ -129,6 +153,32 @@ export default function Orders() {
                 </div>
 
                 <div className="flex flex-col gap-2 min-w-[200px]">
+                  <div className="flex flex-col gap-1 mb-2">
+                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tracking ID</label>
+                    {editingTracking[o._id] ? (
+                      <div className="flex gap-2">
+                        <input 
+                          type="text" 
+                          value={trackingIds[o._id] !== undefined ? trackingIds[o._id] : ''} 
+                          onChange={(e) => setTrackingIds(prev => ({...prev, [o._id]: e.target.value}))}
+                          placeholder="Courier Track ID" 
+                          className="input py-1.5 px-2.5 text-sm flex-1 bg-white focus:ring-brand-pink focus:border-brand-pink"
+                        />
+                        <button onClick={() => handleSaveTracking(o._id)} className="btn-primary py-1.5 px-3 text-xs">Send</button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg py-1.5 px-3">
+                        <span className="text-sm font-semibold text-gray-800">{trackingIds[o._id]}</span>
+                        <button 
+                          onClick={() => setEditingTracking(prev => ({...prev, [o._id]: true}))} 
+                          className="text-gray-400 hover:text-brand-pink transition-colors p-1"
+                          title="Edit Tracking ID"
+                        >
+                          <FiEdit2 size={14} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   <select
                     value={o.status}
                     onChange={(e) => handleStatusChange(o._id, e.target.value)}
@@ -148,7 +198,8 @@ export default function Orders() {
                        o.status === 'shipped' ? 'Your order has been shipped and is on its way!' :
                        o.status === 'delivered' ? 'Your order has been successfully delivered! We hope you love it 🎁.' :
                        o.status === 'cancelled' ? 'This is an update that your order has been cancelled.' :
-                       'We are reaching out to you regarding your order.')
+                       'We are reaching out to you regarding your order.') +
+                      (o.trackingId ? `\n\n🚚 Tracking ID: ${o.trackingId}` : '')
                     )}`}
                     target="_blank" rel="noopener noreferrer"
                     className="btn-ghost flex items-center justify-center gap-2 border border-green-200 text-green-700 hover:bg-green-50 py-1.5 text-sm"

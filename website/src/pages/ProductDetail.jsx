@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiShoppingCart, FiArrowLeft, FiPlus, FiMinus, FiShare2, FiStar } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
-import { getProduct, addReview } from '../api';
+import { getProduct, addReview, deleteReview } from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
@@ -21,6 +21,35 @@ export default function ProductDetail() {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  useEffect(() => {
+    if (product && currentUser && product.reviews) {
+      const existing = product.reviews.find(r => r.userEmail && r.userEmail === currentUser.email);
+      if (existing) {
+        setRating(existing.rating);
+        setComment(existing.comment);
+        setIsUpdating(true);
+      } else {
+        setIsUpdating(false);
+      }
+    }
+  }, [product, currentUser]);
+
+  const handleDeleteReview = async (reviewId) => {
+    if (!window.confirm("Are you sure you want to delete your review?")) return;
+    try {
+      await deleteReview(id, reviewId, currentUser.email);
+      toast.success("Review deleted successfully!");
+      setComment('');
+      setRating(5);
+      setIsUpdating(false);
+      const res = await getProduct(id);
+      setProduct(res.data);
+    } catch (err) {
+      toast.error("Failed to delete review");
+    }
+  };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +61,11 @@ export default function ProductDetail() {
       await addReview(id, {
         rating, 
         comment,
-        name: currentUser.displayName || 'SV Gifts Customer'
+        name: currentUser.displayName || 'SV Gifts Customer',
+        email: currentUser.email
       });
-      toast.success("Review added successfully! ⭐️");
-      setComment('');
+      toast.success(isUpdating ? "Review updated successfully! ⭐️" : "Review added successfully! ⭐️");
+      if (!isUpdating) setComment('');
       const res = await getProduct(id);
       setProduct(res.data);
     } catch (err) {
@@ -210,7 +240,7 @@ export default function ProductDetail() {
           {/* Write a Review */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-              <h3 className="font-bold text-lg mb-4">Write a Review</h3>
+              <h3 className="font-bold text-lg mb-4">{isUpdating ? 'Update Your Review' : 'Write a Review'}</h3>
               {!currentUser ? (
                 <div className="text-sm text-gray-500 mb-4 bg-orange-50 p-4 rounded-xl border border-orange-100">
                   Please <Link to="/login" className="text-primary-600 font-bold hover:underline">log in</Link> to share your thoughts about this product.
@@ -243,7 +273,7 @@ export default function ProductDetail() {
                     ></textarea>
                   </div>
                   <button type="submit" disabled={submittingReview} className="btn-primary w-full text-sm">
-                    {submittingReview ? 'Submitting...' : 'Submit Review'}
+                    {submittingReview ? (isUpdating ? 'Updating...' : 'Submitting...') : (isUpdating ? 'Update Review' : 'Submit Review')}
                   </button>
                 </form>
               )}
@@ -264,8 +294,18 @@ export default function ProductDetail() {
                   <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div className="flex items-center justify-between mb-3">
                       <div className="font-bold text-gray-900">{review.name}</div>
-                      <div className="text-xs text-gray-400 font-medium">
-                        {new Date(review.createdAt).toLocaleDateString()}
+                      <div className="flex items-center gap-4">
+                        <div className="text-xs text-gray-400 font-medium">
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </div>
+                        {currentUser && review.userEmail === currentUser.email && (
+                          <button 
+                            onClick={() => handleDeleteReview(review._id)} 
+                            className="text-red-500 hover:text-red-600 text-xs font-bold transition-colors uppercase tracking-wider block"
+                          >
+                            Delete
+                          </button>
+                        )}
                       </div>
                     </div>
                     <div className="flex gap-1 mb-3">

@@ -44,6 +44,7 @@ const orderSchema = new mongoose.Schema(
       default: 'pending',
     },
     notes: { type: String },
+    trackingId: { type: String },
   },
   { timestamps: true }
 );

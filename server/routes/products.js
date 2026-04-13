@@ -47,33 +47,77 @@ router.get('/:id', async (req, res) => {
 });
 
 // @route  POST /api/products/:id/reviews
-// @desc   Create new review
+// @desc   Create or update review
 // @access Public
 router.post('/:id/reviews', async (req, res) => {
   try {
-    const { rating, comment, name } = req.body;
+    const { rating, comment, name, email } = req.body;
     const product = await Product.findById(req.params.id);
 
     if (product) {
-      const review = {
-        name,
-        rating: Number(rating),
-        comment,
-      };
+      const existingReviewIndex = product.reviews.findIndex(
+        (r) => r.userEmail && r.userEmail === email
+      );
 
-      product.reviews.push(review);
+      if (existingReviewIndex !== -1 && email) {
+        // Update existing review
+        product.reviews[existingReviewIndex].rating = Number(rating);
+        product.reviews[existingReviewIndex].comment = comment;
+        product.reviews[existingReviewIndex].name = name;
+        product.reviews[existingReviewIndex].createdAt = Date.now();
+      } else {
+        // Create new review
+        const review = {
+          name,
+          userEmail: email,
+          rating: Number(rating),
+          comment,
+        };
+        product.reviews.push(review);
+      }
+
       product.numReviews = product.reviews.length;
       product.ratings =
         product.reviews.reduce((acc, item) => item.rating + acc, 0) /
         product.reviews.length;
 
       await product.save();
-      res.status(201).json({ message: 'Review added' });
+      res.status(201).json({ message: 'Review successfully updated' });
     } else {
       res.status(404).json({ message: 'Product not found' });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+// @route  DELETE /api/products/:id/reviews/:reviewId
+// @desc   Delete a review
+// @access Public (with email check)
+router.delete('/:id/reviews/:reviewId', async (req, res) => {
+  try {
+    const { email } = req.query;
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    const reviewIndex = product.reviews.findIndex(r => r._id.toString() === req.params.reviewId);
+    if (reviewIndex === -1) return res.status(404).json({ message: 'Review not found' });
+
+    if (product.reviews[reviewIndex].userEmail !== email) {
+      return res.status(403).json({ message: 'Unauthorized to delete this review' });
+    }
+
+    product.reviews.splice(reviewIndex, 1);
+    
+    product.numReviews = product.reviews.length;
+    product.ratings = product.reviews.length > 0 
+      ? product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length 
+      : 0;
+
+    await product.save();
+    res.json({ message: 'Review deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

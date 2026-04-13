@@ -88,13 +88,18 @@ export default function Profile() {
                       <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Order ID</span>
                       <span className="text-sm font-semibold text-gray-700">#{order._id.slice(-8).toUpperCase()}</span>
                     </div>
-                    <div>
+                    <div className="flex flex-col items-end gap-2">
                       <span className={`inline-block px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full 
                         ${order.status === 'delivered' ? 'bg-green-100 text-green-700' : 
                           order.status === 'cancelled' ? 'bg-red-100 text-red-700' : 
                           'bg-orange-100 text-orange-700'}`}>
                         {order.status}
                       </span>
+                      {order.trackingId && (
+                        <div className="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-md border border-blue-100 font-medium flex items-center gap-1.5">
+                          🚚 Tracking ID: <span className="font-bold">{order.trackingId}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   

@@ -8,6 +8,7 @@ const API = axios.create({
 export const getProducts = (params) => API.get('/products', { params });
 export const getProduct = (id) => API.get(`/products/${id}`);
 export const addReview = (id, data) => API.post(`/products/${id}/reviews`, data);
+export const deleteReview = (productId, reviewId, email) => API.delete(`/products/${productId}/reviews/${reviewId}`, { params: { email } });
 
 // Orders
 export const createOrder = (data) => API.post('/orders', data);

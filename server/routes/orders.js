@@ -177,8 +177,12 @@ router.get('/:id', protect, async (req, res) => {
 // @access Private
 router.put('/:id/status', protect, async (req, res) => {
   try {
-    const { status } = req.body;
-    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    const { status, trackingId } = req.body;
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (trackingId !== undefined) updateData.trackingId = trackingId;
+    
+    const order = await Order.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!order) return res.status(404).json({ message: 'Order not found' });
     res.json(order);
   } catch (error) {
