@@ -6,6 +6,7 @@ const API = axios.create({
 
 // Products
 export const getProducts = (params) => API.get('/products', { params });
+export const getUniqueCategories = () => API.get('/products/categories');
 export const getProduct = (id) => API.get(`/products/${id}`);
 export const addReview = (id, data) => API.post(`/products/${id}/reviews`, data);
 export const deleteReview = (productId, reviewId, email) => API.delete(`/products/${productId}/reviews/${reviewId}`, { params: { email } });

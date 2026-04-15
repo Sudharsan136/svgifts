@@ -33,6 +33,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route  GET /api/products/categories
+// @desc   Get all unique categories
+// @access Public
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await Product.distinct('category');
+    res.json(categories.filter(Boolean));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // @route  GET /api/products/:id
 // @desc   Get single product
 // @access Public

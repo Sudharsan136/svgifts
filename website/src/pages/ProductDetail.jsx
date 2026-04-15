@@ -82,6 +82,15 @@ export default function ProductDetail() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  useEffect(() => {
+    if (!loading && product && window.location.hash === '#reviews') {
+      setTimeout(() => {
+        const el = document.getElementById('reviews');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [loading, product]);
+
   if (loading) return (
     <div className="max-w-6xl mx-auto px-4 py-12 animate-pulse">
       <div className="grid md:grid-cols-2 gap-10">
@@ -233,7 +242,7 @@ export default function ProductDetail() {
       </div>
 
       {/* Reviews Section */}
-      <div className="mt-12 border-t border-gray-100 pt-10">
+      <div id="reviews" className="mt-12 border-t border-gray-100 pt-10">
         <h2 className="font-display text-3xl font-bold text-gray-900 mb-8 text-center">Customer Reviews</h2>
         
         <div className="grid md:grid-cols-3 gap-10">

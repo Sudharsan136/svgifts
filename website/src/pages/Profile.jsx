@@ -120,7 +120,7 @@ export default function Profile() {
                           <div className="font-bold text-gray-900 text-right">
                             <div className="mb-2">₹{item.qty * item.price}</div>
                             <Link 
-                              to={`/product/${item.product?._id || item.product}`} 
+                              to={`/product/${item.product?._id || item.product}#reviews`} 
                               className="text-xs text-brand-pink font-semibold border border-brand-pink/30 bg-brand-pink/5 hover:bg-brand-pink hover:text-white px-3 py-1.5 rounded-full inline-block transition-colors"
                             >
                               ★ Write Review

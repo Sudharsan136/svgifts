@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FiSearch, FiX } from 'react-icons/fi';
 import ProductCard from '../components/ProductCard';
-import { getProducts } from '../api';
+import { getProducts, getUniqueCategories } from '../api';
 
 
 const SORTS = [
@@ -34,9 +34,8 @@ export default function Shop() {
 
   // One-time fetch to get all category names from DB (independent of filters)
   useEffect(() => {
-    getProducts({}).then(res => {
-      const cats = new Set(['All', ...res.data.map(p => p.category).filter(Boolean)]);
-      setAllCategories(Array.from(cats));
+    getUniqueCategories().then(res => {
+      setAllCategories(['All', ...res.data]);
     }).catch(() => {});
   }, []);
 
@@ -174,7 +173,7 @@ export default function Shop() {
           <p className="text-gray-500 mb-6">Try a different search term or category</p>
           <button onClick={clearFilters} className="btn-primary inline-flex">Browse All Products</button>
         </div>
-      ) : category === 'All' && !search && !sort ? (
+      ) : !search && !sort ? (
         <div className="space-y-16">
           {Object.entries(groupedProducts).map(([groupName, items]) => (
             <section key={groupName}>

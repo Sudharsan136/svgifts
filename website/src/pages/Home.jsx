@@ -53,8 +53,30 @@ export default function Home() {
 
   const scrollReviews = (dir) => {
     const el = reviewsScrollRef.current;
-    if (el) el.scrollBy({ left: dir * 420, behavior: 'smooth' });
+    if (el) {
+      const itemWidth = el.firstElementChild ? el.firstElementChild.offsetWidth + 24 : 426;
+      el.scrollBy({ left: dir * itemWidth, behavior: 'smooth' });
+    }
   };
+
+  useEffect(() => {
+    if (!reviews || reviews.length === 0) return;
+    const interval = setInterval(() => {
+      const el = reviewsScrollRef.current;
+      if (el) {
+        // Stop auto-scroll if all items are fully visible
+        if (el.scrollWidth <= el.clientWidth) return;
+        
+        if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 10) {
+          el.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          const itemWidth = el.firstElementChild ? el.firstElementChild.offsetWidth + 24 : 426;
+          el.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [reviews]);
 
   useEffect(() => {
     Promise.all([
@@ -261,7 +283,7 @@ export default function Home() {
                 </button>
               )}
 
-              <div ref={reviewsScrollRef} className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide" style={{ scrollBehavior: 'smooth' }}>
+              <div ref={reviewsScrollRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide" style={{ scrollBehavior: 'smooth' }}>
                 {reviews.map((review, i) => (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -269,7 +291,7 @@ export default function Home() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
                     key={review._id}
-                    className="min-w-[320px] md:min-w-[400px] w-[320px] md:w-[400px] snap-center bg-[#111] text-gray-200 rounded-3xl p-4 shadow-2xl relative flex-shrink-0"
+                    className="min-w-[320px] md:min-w-[400px] w-[320px] md:w-[400px] bg-[#111] text-gray-200 rounded-3xl p-4 shadow-2xl relative flex-shrink-0"
                   >
                     <div className="w-full h-[500px]">
                       <img 
@@ -298,7 +320,10 @@ export default function Home() {
                     key={i}
                     onClick={() => {
                       const el = reviewsScrollRef.current;
-                      if (el) el.scrollTo({ left: i * 426, behavior: 'smooth' });
+                      if (el) {
+                        const itemWidth = el.firstElementChild ? el.firstElementChild.offsetWidth + 24 : 426;
+                        el.scrollTo({ left: i * itemWidth, behavior: 'smooth' });
+                      }
                     }}
                     className="w-2 h-2 rounded-full bg-gray-300 hover:bg-brand-pink transition-colors"
                   />
