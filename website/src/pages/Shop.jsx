@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FiFilter, FiSearch, FiX } from 'react-icons/fi';
+import { FiSearch, FiX } from 'react-icons/fi';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../api';
 
-const CATEGORIES = ['All', 'Festival Gifts', 'Home Decor', 'Corporate Gifts', 'Personalised Gifts', 'Pooja Items'];
+
 const SORTS = [
   { value: '', label: 'Latest' },
   { value: 'price_asc', label: 'Price: Low to High' },
@@ -30,14 +30,23 @@ export default function Shop() {
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [category, setCategory] = useState(searchParams.get('category') || 'All');
   const [sort, setSort] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
+  const [allCategories, setAllCategories] = useState(['All']);
+
+  // One-time fetch to get all category names from DB (independent of filters)
+  useEffect(() => {
+    getProducts({}).then(res => {
+      const cats = new Set(['All', ...res.data.map(p => p.category).filter(Boolean)]);
+      setAllCategories(Array.from(cats));
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     setLoading(true);
     const params = {};
     if (category && category !== 'All') params.category = category;
     if (search) params.search = search;
-    if (sort) params.sort = sort;
+    // Note: price sort is handled client-side using effective price
+    if (sort === 'name') params.sort = sort;
 
     getProducts(params)
       .then((res) => setProducts(res.data))
@@ -65,17 +74,23 @@ export default function Shop() {
     setSearchParams({});
   };
 
-  const [dynamicCategories, setDynamicCategories] = useState(['All']);
-  useEffect(() => {
-    if (category === 'All' && products.length > 0) {
-      // Only show categories that actually have products in them
-      const cats = new Set(['All', ...products.map(p => p.category).filter(Boolean)]);
-      setDynamicCategories(Array.from(cats));
-    }
-  }, [products, category]);
 
-  // Group products by category when showing "All", otherwise group by subCategory
-  const groupedProducts = products.reduce((acc, p) => {
+
+  // Sort client-side using effective price (discountPrice if available, else price)
+  const sortedProducts = useMemo(() => {
+    if (!sort) return products;
+    return [...products].sort((a, b) => {
+      const effA = a.discountPrice ?? a.price;
+      const effB = b.discountPrice ?? b.price;
+      if (sort === 'price_asc') return effA - effB;
+      if (sort === 'price_desc') return effB - effA;
+      if (sort === 'name') return a.name.localeCompare(b.name);
+      return 0;
+    });
+  }, [products, sort]);
+
+  // Group products by category when showing "All"
+  const groupedProducts = sortedProducts.reduce((acc, p) => {
     let groupKey;
     if (category === 'All') {
       groupKey = p.category || 'Uncategorized';
@@ -121,7 +136,7 @@ export default function Shop() {
 
       {/* Category Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-4 mb-8">
-        {dynamicCategories.map((cat) => (
+        {allCategories.map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
@@ -156,7 +171,7 @@ export default function Shop() {
           <p className="text-gray-500 mb-6">Try a different search term or category</p>
           <button onClick={clearFilters} className="btn-primary inline-flex">Browse All Products</button>
         </div>
-      ) : !search && !sort ? (
+      ) : category === 'All' && !search && !sort ? (
         <div className="space-y-16">
           {Object.entries(groupedProducts).map(([groupName, items]) => (
             <section key={groupName}>
@@ -203,7 +218,7 @@ export default function Shop() {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {products.map((p) => <ProductCard key={p._id} product={p} />)}
+          {sortedProducts.map((p) => <ProductCard key={p._id} product={p} />)}
         </div>
       )}
     </main>

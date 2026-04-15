@@ -224,10 +224,10 @@ export default function ProductDetail() {
           </div>
 
           {/* Delivery info */}
-          <div className="mt-8 p-4 bg-orange-50 rounded-2xl border border-orange-100 text-sm text-gray-600 space-y-1">
-            <p>🚚 <strong>Free Delivery</strong> on all orders!</p>
-            <p>💳 <strong>Razorpay</strong> — UPI, Cards, NetBanking accepted</p>
-            <p>📦 <strong>Cash on Delivery</strong> also available</p>
+          <div className="mt-8 p-4 bg-orange-50 rounded-2xl border border-orange-100 text-sm text-gray-600 space-y-2">
+            <p className="flex items-center gap-2">🚚 <span><strong>Free Delivery</strong> on all orders!</span></p>
+            <p className="flex items-center gap-2">💬 <span><strong>Order via WhatsApp</strong> for quick processing</span></p>
+            <p className="flex items-center gap-2">💵 <span><strong>Cash on Delivery (COD)</strong> exclusively available</span></p>
           </div>
         </div>
       </div>

@@ -18,7 +18,13 @@ export default function Products() {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { fetchProducts(); }, []);
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      fetchProducts();
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [search]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -55,8 +61,9 @@ export default function Products() {
             className="input pl-10" placeholder="Search products..." />
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
-        <button type="submit" className="btn-primary px-4">Search</button>
-        {search && <button type="button" onClick={() => { setSearch(''); fetchProducts(); }} className="btn-ghost">Clear</button>}
+        {/* Hidden submit button to allow Enter key to submit immediately */}
+        <button type="submit" className="hidden">Search</button>
+        {search && <button type="button" onClick={() => setSearch('')} className="btn-ghost">Clear</button>}
       </form>
 
       {/* Table */}
