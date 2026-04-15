@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem('svgifts_admin_token');
     if (!token) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false);
       return;
     }
@@ -54,4 +55,6 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+/* eslint-disable react-refresh/only-export-components */
 export const useAuth = () => useContext(AuthContext);
+/* eslint-enable react-refresh/only-export-components */

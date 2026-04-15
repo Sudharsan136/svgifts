@@ -45,14 +45,17 @@ export default function Shop() {
     const params = {};
     if (category && category !== 'All') params.category = category;
     if (search) params.search = search;
-    // Note: price sort is handled client-side using effective price
     if (sort === 'name') params.sort = sort;
 
     getProducts(params)
-      .then((res) => setProducts(res.data))
+      .then((res) => setProducts(Array.isArray(res.data) ? res.data : []))
       .catch(() => setProducts([]))
       .finally(() => setLoading(false));
-  }, [category, search, sort]);
+
+    // Safely sync to URL without causing infinite loops
+    setSearchParams(params, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, search, sort]); // Removed setSearchParams from deps to be safe
 
   const [searchInput, setSearchInput] = useState(searchParams.get('search') || '');
 
@@ -60,11 +63,11 @@ export default function Shop() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSearch(searchInput);
-      if (searchInput) setSearchParams({ search: searchInput });
-      else setSearchParams({});
+      // We don't need to call setSearchParams here! 
+      // Setting 'search' will trigger the first useEffect which handles setSearchParams safely.
     }, 300);
     return () => clearTimeout(timeout);
-  }, [searchInput]);
+  }, [searchInput]); // removed setSearchParams
 
   const clearFilters = () => {
     setSearchInput('');

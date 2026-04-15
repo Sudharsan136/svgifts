@@ -34,4 +34,9 @@ export const getOrder = (id) => adminAPI.get(`/orders/${id}`);
 export const updateOrderStatus = (id, status, trackingId) => adminAPI.put(`/orders/${id}/status`, { status, trackingId });
 export const deleteOrder = (id) => adminAPI.delete(`/orders/${id}`);
 
+// Reviews
+export const getReviews = () => adminAPI.get('/reviews');
+export const createReview = (data) => adminAPI.post('/reviews', data);
+export const deleteReview = (id) => adminAPI.delete(`/reviews/${id}`);
+
 export default adminAPI;

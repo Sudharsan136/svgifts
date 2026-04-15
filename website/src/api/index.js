@@ -16,4 +16,7 @@ export const createRazorpayOrder = (amount) => API.post('/orders/razorpay/create
 export const verifyRazorpayPayment = (data) => API.post('/orders/razorpay/verify', data);
 export const getMyOrders = (email) => API.get('/orders/my-orders', { params: { email } });
 
+// Reviews
+export const getReviews = () => API.get('/reviews');
+
 export default API;

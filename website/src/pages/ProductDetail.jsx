@@ -46,8 +46,8 @@ export default function ProductDetail() {
       setIsUpdating(false);
       const res = await getProduct(id);
       setProduct(res.data);
-    } catch (err) {
-      toast.error("Failed to delete review");
+    } catch (_err) {
+      toast.error(_err.response?.data?.message || "Failed to delete review");
     }
   };
 
@@ -68,8 +68,8 @@ export default function ProductDetail() {
       if (!isUpdating) setComment('');
       const res = await getProduct(id);
       setProduct(res.data);
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to add review");
+    } catch (_err) {
+      toast.error(_err.response?.data?.message || "Failed to add review");
     } finally {
       setSubmittingReview(false);
     }

@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiGift, FiTruck, FiShield, FiStar, FiBriefcase, FiHeart, FiHome, FiSun } from 'react-icons/fi';
+import { FiArrowRight, FiArrowLeft, FiGift, FiTruck, FiShield, FiStar, FiBriefcase, FiHeart, FiHome, FiSun } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import ProductCard from '../components/ProductCard';
-import { getProducts } from '../api';
+import { getProducts, getReviews } from '../api';
 import logo from '../assets/logo.jpg';
 
 const CATEGORIES = [
@@ -47,13 +47,24 @@ function SkeletonCard() {
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const reviewsScrollRef = useRef(null);
+
+  const scrollReviews = (dir) => {
+    const el = reviewsScrollRef.current;
+    if (el) el.scrollBy({ left: dir * 420, behavior: 'smooth' });
+  };
 
   useEffect(() => {
-    getProducts({ featured: 'true' })
-      .then((res) => setFeatured(res.data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      getProducts({ featured: 'true' }).catch(() => ({ data: [] })),
+      getReviews().catch(() => ({ data: [] }))
+    ]).then(([productsRes, reviewsRes]) => {
+      setFeatured(productsRes.data);
+      setReviews(reviewsRes.data);
+      setLoading(false);
+    });
   }, []);
 
   return (
@@ -213,7 +224,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Features Bar ─────────────────────────── */}
+      {/* --- Features Bar --- */}
       <section className="bg-white py-12 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divider-x divider-gray-100">
@@ -230,8 +241,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Categories ───────────────────────── */}
-      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* --- Customer Reviews Section --- */}
+      {reviews.length > 0 && (
+        <section className="bg-white py-16 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="section-title mb-4">Words of Love</motion.h2>
+              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-gray-500 text-lg">What our customers are saying about us</motion.p>
+            </div>
+            
+            {/* Carousel with navigation arrows */}
+            <div className="relative">
+              {reviews.length > 3 && (
+                <button
+                  onClick={() => scrollReviews(-1)}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-xl border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 hover:scale-110 transition-all"
+                >
+                  <FiArrowLeft size={20} />
+                </button>
+              )}
+
+              <div ref={reviewsScrollRef} className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide" style={{ scrollBehavior: 'smooth' }}>
+                {reviews.map((review, i) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    key={review._id}
+                    className="min-w-[320px] md:min-w-[400px] w-[320px] md:w-[400px] snap-center bg-[#111] text-gray-200 rounded-3xl p-4 shadow-2xl relative flex-shrink-0"
+                  >
+                    <div className="w-full h-[500px]">
+                      <img 
+                        src={review.imageUrl} 
+                        alt="Customer Review" 
+                        className="w-full h-full object-contain rounded-2xl shadow-md"
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {reviews.length > 3 && (
+                <button
+                  onClick={() => scrollReviews(1)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-xl border border-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-50 hover:scale-110 transition-all"
+                >
+                  <FiArrowRight size={20} />
+                </button>
+              )}
+
+              {/* Dot indicators */}
+              <div className="flex justify-center gap-2 mt-6">
+                {reviews.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      const el = reviewsScrollRef.current;
+                      if (el) el.scrollTo({ left: i * 426, behavior: 'smooth' });
+                    }}
+                    className="w-2 h-2 rounded-full bg-gray-300 hover:bg-brand-pink transition-colors"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* --- Categories --- */}
+      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50/30 rounded-t-[3rem]">
         <div className="text-center mb-16">
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="section-title mb-4">Curated Collections</motion.h2>
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-gray-500 text-lg max-w-2xl mx-auto">Discover the perfect gift mapped to your exact occasion.</motion.p>
@@ -257,7 +336,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ─── Featured Products ─────────────────── */}
+      {/* --- Featured Products --- */}
       <section className="py-24 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">

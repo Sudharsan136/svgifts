@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getOrders, updateOrderStatus, deleteOrder } from '../api';
 import toast from 'react-hot-toast';
 import { FiEye, FiSearch, FiMessageCircle, FiTrash2, FiPhone, FiMail, FiMapPin, FiCreditCard, FiCalendar, FiEdit2 } from 'react-icons/fi';
@@ -12,17 +12,6 @@ export default function Orders() {
   const [trackingIds, setTrackingIds] = useState({});
   const [editingTracking, setEditingTracking] = useState({});
 
-  useEffect(() => {
-    const tIds = {};
-    const eIds = {};
-    orders.forEach(o => { 
-      tIds[o._id] = o.trackingId || '';
-      if (!o.trackingId) eIds[o._id] = true;
-    });
-    setTrackingIds(tIds);
-    setEditingTracking(eIds);
-  }, [orders]);
-
   const handleSaveTracking = async (id) => {
     try {
       await updateOrderStatus(id, undefined, trackingIds[id]);
@@ -34,15 +23,28 @@ export default function Orders() {
     }
   };
 
-  const fetchOrders = () => {
+  const fetchOrders = useCallback(() => {
     setLoading(true);
     getOrders()
-      .then((res) => setOrders(res.data))
+      .then((res) => {
+        const ordersData = res.data;
+        setOrders(ordersData);
+        
+        // Initialize tracking states once when orders are loaded
+        const tIds = {};
+        const eIds = {};
+        ordersData.forEach(o => { 
+          tIds[o._id] = o.trackingId || '';
+          if (!o.trackingId) eIds[o._id] = true;
+        });
+        setTrackingIds(tIds);
+        setEditingTracking(eIds);
+      })
       .catch(() => toast.error('Failed to load orders'))
       .finally(() => setLoading(false));
-  };
+  }, []);
 
-  useEffect(() => { fetchOrders(); }, []);
+  useEffect(() => { fetchOrders(); }, [fetchOrders]);
 
   const handleStatusChange = async (id, status) => {
     try {

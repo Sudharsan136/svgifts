@@ -21,7 +21,7 @@ export default function Categories() {
     try {
       const { data } = await getCategories();
       setCategories(data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to load categories');
     } finally {
       setLoading(false);

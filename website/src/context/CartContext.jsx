@@ -70,8 +70,10 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+/* eslint-disable react-refresh/only-export-components */
 export const useCart = () => {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error('useCart must be used within CartProvider');
   return ctx;
 };
+/* eslint-enable react-refresh/only-export-components */

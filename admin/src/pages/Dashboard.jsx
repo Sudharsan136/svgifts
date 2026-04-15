@@ -36,6 +36,7 @@ export default function Dashboard() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        {/* eslint-disable-next-line no-unused-vars */}
         {STAT_CARDS.map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="card">
             <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-3 ${color}`}>

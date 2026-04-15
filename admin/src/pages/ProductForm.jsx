@@ -39,7 +39,7 @@ export default function ProductForm() {
         .catch(() => toast.error('Failed to load product'))
         .finally(() => setFetchLoading(false));
     }
-  }, [id]);
+  }, [id, isEdit]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

@@ -21,7 +21,7 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success('Welcome back!', { style: { borderRadius: '12px' } });
       navigate(from, { replace: true });
-    } catch (err) {
+    } catch {
       toast.error('Invalid email or password', { style: { borderRadius: '12px' } });
     } finally {
       setLoading(false);

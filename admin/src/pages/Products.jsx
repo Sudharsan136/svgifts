@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiEdit2, FiTrash2, FiStar, FiSearch } from 'react-icons/fi';
 import { getProducts, deleteProduct } from '../api';
@@ -10,13 +10,13 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(null);
 
-  const fetchProducts = () => {
+  const fetchProducts = useCallback(() => {
     setLoading(true);
     getProducts(search ? { search } : {})
       .then((res) => setProducts(res.data))
       .catch(() => toast.error('Failed to load products'))
       .finally(() => setLoading(false));
-  };
+  }, [search]);
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -24,7 +24,7 @@ export default function Products() {
     }, 300);
 
     return () => clearTimeout(debounceTimer);
-  }, [search]);
+  }, [fetchProducts]);
 
   const handleSearch = (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { FiHome, FiPackage, FiShoppingBag, FiLogOut } from 'react-icons/fi';
+import { FiHome, FiPackage, FiShoppingBag, FiLogOut, FiMessageSquare } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import logo from '../assets/logo.jpg';
 
@@ -7,6 +7,7 @@ const MENU = [
   { path: '/', label: 'Dashboard', icon: FiHome },
   { path: '/products', label: 'Products', icon: FiPackage },
   { path: '/orders', label: 'Orders', icon: FiShoppingBag },
+  { path: '/reviews', label: 'Reviews', icon: FiMessageSquare },
 ];
 
 export default function Sidebar() {
@@ -28,6 +29,7 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+        {/* eslint-disable-next-line no-unused-vars */}
         {MENU.map(({ path, label, icon: Icon }) => (
           <NavLink
             key={path}
