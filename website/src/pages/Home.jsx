@@ -147,94 +147,57 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Minimalist Premium 3D Orbital Rings */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }} className="hidden lg:flex relative h-[650px] w-full mt-10 lg:mt-0 items-center justify-center perspective-[1200px]">
-              
-              {/* Soft Ambient Core */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-rose-200/40 to-pink-100/40 blur-[100px] rounded-full pointer-events-none z-0 animate-pulse duration-[4000ms]" />
+            {/* Elegant Hero Visual */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              transition={{ duration: 1 }} 
+              className="hidden lg:flex relative h-[600px] w-full mt-10 lg:mt-0 items-center justify-center"
+            >
+              {/* Soft Glow Background */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-brand-pink/20 to-rose-100/40 blur-[80px] rounded-full pointer-events-none z-0 animate-pulse duration-[4000ms]" />
 
-              {/* 3D Orbits Container */}
-              <motion.div 
-                animate={{ rotateX: [10, -10, 10], rotateY: [-15, 15, -15] }}
-                transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
-                className="relative w-[450px] h-[450px] flex items-center justify-center transform-gpu"
-                style={{ transformStyle: 'preserve-3d' }}
+              {/* Main Floating Image Container */}
+              <motion.div
+                animate={{ y: [-15, 15, -15] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                className="relative z-10 w-80 h-80 rounded-[2.5rem] bg-white/60 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.05)] border border-white/80 flex items-center justify-center p-8 overflow-hidden group"
               >
-                {/* Ring 1 - Outer Gold */}
-                <motion.div 
-                  animate={{ rotateZ: 360 }}
-                  transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-                  className="absolute inset-[-10%] border border-[#c8a97e]/20 rounded-full"
-                  style={{ transformStyle: 'preserve-3d' }}
-                />
-                
-                {/* Ring 2 - Middle Pink Dashed */}
-                <motion.div 
-                  animate={{ rotateZ: -360, rotateX: 20 }}
-                  transition={{ repeat: Infinity, duration: 35, ease: "linear" }}
-                  className="absolute inset-0 border border-brand-pink/30 border-dashed rounded-full"
-                  style={{ transformStyle: 'preserve-3d' }}
-                />
-
-                {/* Ring 3 - Inner Fine Orbit (Holds a glowing star) */}
-                <motion.div 
-                  animate={{ rotateZ: 360, rotateY: 20 }}
-                  transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-                  className="absolute inset-[10%] border border-[#c8a97e]/40 rounded-full flex items-center justify-start"
-                  style={{ transformStyle: 'preserve-3d' }}
-                >
-                  <div className="w-3 h-3 rounded-full bg-brand-pink border shadow-[0_0_15px_rgba(255,107,107,0.8)] -translate-x-1.5" />
-                </motion.div>
-
-                {/* Ring 4 - Counter Rotating Track */}
-                <motion.div 
-                  animate={{ rotateZ: -360, rotateX: -20, rotateY: -10 }}
-                  transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-                  className="absolute inset-[20%] border-[0.5px] border-gray-400/20 rounded-full flex items-end justify-center"
-                  style={{ transformStyle: 'preserve-3d' }}
-                >
-                   <div className="w-2 h-2 rounded-full bg-[#c8a97e] shadow-[0_0_10px_rgba(200,169,126,0.8)] translate-y-1" />
-                </motion.div>
-
-                {/* Core Floating Glass Prism */}
-                <motion.div 
-                   initial={{ scale: 0.8 }}
-                   animate={{ scale: [1, 1.02, 1], rotateZ: [0, 2, -2, 0] }}
-                   transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-                   className="relative z-10 w-64 h-64 rounded-full bg-white/20 backdrop-blur-2xl shadow-[0_30px_60px_rgba(0,0,0,0.08)] border border-white/60 flex items-center justify-center overflow-hidden"
-                >
-                  {/* Prism reflections */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-white/60" />
-                  <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-b from-white/30 to-transparent rotate-45 transform origin-center animate-[spin_20s_linear_infinite]" />
-                  
-                  {/* Central Logo Enclosure */}
-                  <div className="relative z-20 w-48 h-48 rounded-full bg-white shadow-[0_15px_30px_rgba(0,0,0,0.1)] flex items-center justify-center p-6 transform transition-transform hover:scale-105 duration-500 will-change-transform">
-                    <img src={logo} alt="SV Gifts" className="w-full h-full object-contain" />
-                  </div>
-                </motion.div>
-                
+                 <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent z-0" />
+                 <img src={logo} alt="SV Gifts" className="w-full h-full object-contain relative z-10 transition-transform duration-700 group-hover:scale-105" />
               </motion.div>
 
-              {/* Floating Brand Badge (Top Left) */}
+              {/* Floating Decorative Elements */}
               <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0, y: [-5, 5, -5] }}
-                transition={{ opacity: { duration: 1 }, x: { duration: 1 }, y: { repeat: Infinity, duration: 6, ease: "easeInOut" } }}
-                className="absolute top-[12%] left-[8%] z-30"
+                animate={{ y: [-10, 10, -10], rotate: [0, 3, 0] }} 
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }} 
+                className="absolute top-[20%] left-[10%] z-20 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-white/50 flex items-center gap-4"
               >
-                 <div className="relative group cursor-default">
-                   <div className="absolute inset-0 bg-gradient-to-r from-brand-pink/20 to-[#c8a97e]/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full" />
-                   <div className="bg-white/50 backdrop-blur-lg px-6 py-3 rounded-full border border-white/60 shadow-[0_10px_30px_rgba(0,0,0,0.05)] flex items-center gap-3">
-                     <span className="w-1.5 h-1.5 rounded-full bg-brand-pink animate-pulse shadow-[0_0_8px_rgba(255,107,107,0.8)]" />
-                     <span className="font-display tracking-[0.25em] uppercase text-xs font-extrabold text-gray-800">
-                       SV Gifts <span className="text-[#c8a97e] italic font-serif lowercase tracking-normal px-1">by</span> SV
-                     </span>
-                   </div>
+                 <div className="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center text-brand-pink">
+                   <FiGift size={22} />
+                 </div>
+                 <div>
+                   <div className="text-sm font-bold text-gray-900 tracking-wide">Premium</div>
+                   <div className="text-xs text-gray-500 font-medium">Gifting</div>
+                 </div>
+              </motion.div>
+
+              <motion.div 
+                animate={{ y: [10, -10, 10], rotate: [0, -3, 0] }} 
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }} 
+                className="absolute bottom-[20%] right-[10%] z-20 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-white/50 flex items-center gap-4"
+              >
+                 <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
+                   <FiStar size={22} />
+                 </div>
+                 <div>
+                   <div className="text-sm font-bold text-gray-900 tracking-wide">Signature</div>
+                   <div className="text-xs text-gray-500 font-medium">Quality</div>
                  </div>
               </motion.div>
 
               {/* Minimal floating accent stars */}
-              <motion.div animate={{ y: [-10, 10, -10], opacity: [0.3, 0.7, 0.3] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute top-[20%] right-[15%] text-[#c8a97e] z-30">
+              <motion.div animate={{ y: [-10, 10, -10], opacity: [0.3, 0.7, 0.3] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute top-[15%] right-[25%] text-[#c8a97e] z-30">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.5 8.5L23 11l-8.5 2.5L12 22l-2.5-8.5L3 11l8.5-2.5L12 0z"/></svg>
               </motion.div>
               <motion.div animate={{ y: [10, -10, 10], opacity: [0.4, 0.8, 0.4] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }} className="absolute bottom-[25%] left-[20%] text-brand-pink z-30">
